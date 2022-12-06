@@ -1,4 +1,5 @@
 from requests.exceptions import SSLError, ProxyError, ChunkedEncodingError, ConnectionError
+from multiprocessing import Queue
 from lxml import etree
 from base import Base
 import requests
@@ -10,9 +11,10 @@ class 京东搜索列表页面爬虫(Base):
 
     def __init__(self):
         super(京东搜索列表页面爬虫, self).__init__()
-        self.project_list = []
+        self.project_list = Queue()
         self.table = "jd_search_keyword"
         self.project_table = "project_jd_search_keyword"
+        self.flag = 0
 
     def put_item(self):
         try:
@@ -20,9 +22,15 @@ class 京东搜索列表页面爬虫(Base):
             msg = self.eb_supports.query(sql)
             if msg:
                 for i in msg:
-                    self.project_list.append(i)
+                    sql = f'update {self.project_table} set status = 1 ' \
+                          f'where project_id="{i[0]}" and keyword = "{i[1]}";'
+                    self.eb_supports.do(sql)
+                    self.project_list.put(i)
             elif not msg:
-                self.log(f"找不到资源")
+                sql = f"update {self.project_table} set status = 0 where status = 1;"
+                row_cnt = self.eb_supports.do(sql)
+                self.log(f"重置任务-{self.project_table}-{row_cnt}个")
+                return '找不到资源'
         except (SSLError, ProxyError, ChunkedEncodingError, ConnectionError):
             self.log(f"put_item 握手失败")
             return -2
@@ -77,14 +85,21 @@ class 京东搜索列表页面爬虫(Base):
             time.sleep(10)
 
     def run(self):
-        self.put_item()
-        if len(self.project_list) > 0:
-            try:
-                for i in self.project_list:
-                    time.sleep(random.randint(3, 5))
-                    self.get_html(i)
-            except (SSLError, ProxyError, ChunkedEncodingError, ConnectionError, ValueError) as e:
-                raise ValueError(e)
+        while True:
+            time.sleep(random.randint(3, 6))
+            if self.project_list.qsize() > 0:
+                try:
+                    self.get_html(self.project_list.get())
+                    self.flag = 0
+                except (SSLError, ProxyError, ChunkedEncodingError, ConnectionError, ValueError) as e:
+                    raise ValueError(e)
+            else:
+                res = self.put_item()
+                if "找不到资源" == res:
+                    self.flag += 1
+                    self.log(f"找不到资源-{self.flag}")
+                    if self.flag == 5:
+                        break
 
 
 if __name__ == '__main__':
