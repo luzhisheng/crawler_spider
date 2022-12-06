@@ -1,7 +1,7 @@
 from requests.exceptions import SSLError, ProxyError, ChunkedEncodingError, ConnectionError
 from multiprocessing import Queue
 from lxml import etree
-from base import Base
+from spider.base import Base
 import requests
 import time
 import random

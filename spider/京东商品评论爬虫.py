@@ -1,6 +1,6 @@
 from requests.exceptions import SSLError, ProxyError, ChunkedEncodingError, ConnectionError
 from multiprocessing import Queue
-from base import Base
+from spider.base import Base
 import requests
 import time
 import random
