@@ -1,8 +1,10 @@
 from extrator.base import Base
+from urllib.parse import urlparse
 from lxml import etree
 
 
 class 清洗京东搜索列表页面爬虫(Base):
+
     def __init__(self):
         super(清洗京东搜索列表页面爬虫, self).__init__()
 
@@ -26,6 +28,9 @@ class 清洗京东搜索列表页面爬虫(Base):
                 goods_icons = selector.xpath('//div[contains(@class,"p-icons")]/i/text()')
                 shop_name = selector.xpath('//span[contains(@class,"J_im_icon")]/a/text()')
 
+                url_path = urlparse(url).path
+                product_id = url_path.split("/")[1].replace('.html', '')
+
                 if shop_name:
                     shop_name = shop_name[0]
                 else:
@@ -35,6 +40,7 @@ class 清洗京东搜索列表页面爬虫(Base):
                     "project_id": project_id,
                     "keyword": keyword,
                     "url": url,
+                    "product_id": str(product_id),
                     "title": title,
                     "data_price": data_price,
                     "goods_icons": "/".join(goods_icons),
