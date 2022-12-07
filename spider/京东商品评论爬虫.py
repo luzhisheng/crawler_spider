@@ -76,7 +76,7 @@ class 京东商品评论爬虫(Base):
             item = {
                 "project_id": project_id,
                 "keyword": keyword,
-                "productId": productId,
+                "product_id": productId,
                 "page": page,
                 "data": content
             }
