@@ -44,7 +44,8 @@ class 京东商品评论爬虫(Base):
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
                               ' Chrome/108.0.0.0 Safari/537.36',
                 'Content-Type': 'application/json',
-                'referer': 'https://item.jd.com/'
+                'referer': 'https://item.jd.com/',
+                'Cookie': 'jwotest_product=99; __jdu=104242150;'
             }
             response = requests.request("GET", url=url, headers=headers)
             response_text = response.text
