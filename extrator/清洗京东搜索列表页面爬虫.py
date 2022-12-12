@@ -49,6 +49,7 @@ class 清洗京东搜索列表页面爬虫(Base):
                     "小于100": [0, 100]
                 }
                 data_price = int(float(data_price))
+                data_price_interval = 0
                 for key, fans in price_interval.items():
                     if len(fans) == 2:
                         if data_price >= fans[0] and data_price < fans[1]:
