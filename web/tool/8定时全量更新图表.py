@@ -1,3 +1,5 @@
+# 定时刷新的核心在于 HTML 的 setInterval 方法。
+
 from random import randrange
 from flask import Flask, render_template
 from pyecharts import options as opts
@@ -19,7 +21,7 @@ def bar_base() -> Bar:
 
 @app.route("/")
 def index():
-    return render_template("/7index.html")
+    return render_template("/8index.html")
 
 
 @app.route("/barChart")
