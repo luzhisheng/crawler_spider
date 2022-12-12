@@ -14,7 +14,7 @@ class 清洗京东搜索列表页面爬虫(Base):
             list_res = []
             sql = f"""
             select project_id, keyword, url, data from jd_search_keyword where project_id = '{project_id}'
-             and status = 0 LIMIT 200 OFFSET {offset};
+             and status = 2 LIMIT 200 OFFSET {offset};
             """
             self.log(f"执行的sql{sql}")
             res = self.eb_supports.query(sql)
@@ -36,6 +36,26 @@ class 清洗京东搜索列表页面爬虫(Base):
                 else:
                     shop_name = ''
 
+                price_interval = {
+                    "900以上": [900],
+                    "800-900": [800, 900],
+                    "700-800": [700, 800],
+                    "600-700": [600, 700],
+                    "500-600": [500, 600],
+                    "400-500": [400, 500],
+                    "300-400": [300, 400],
+                    "200-300": [200, 300],
+                    "100-200": [100, 200],
+                    "小于100": [0, 100]
+                }
+                data_price = int(float(data_price))
+                for key, fans in price_interval.items():
+                    if len(fans) == 2:
+                        if data_price >= fans[0] and data_price < fans[1]:
+                            data_price_interval = key
+                    else:
+                        data_price_interval = key
+
                 item = {
                     "project_id": project_id,
                     "keyword": keyword,
@@ -43,6 +63,7 @@ class 清洗京东搜索列表页面爬虫(Base):
                     "product_id": str(product_id),
                     "title": title,
                     "data_price": data_price,
+                    "data_price_interval": data_price_interval,
                     "goods_icons": "/".join(goods_icons),
                     "shop_name": shop_name
                 }
