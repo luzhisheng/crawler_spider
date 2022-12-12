@@ -69,6 +69,10 @@ class 京东商品评论爬虫(Base):
         for page in range(1, 99):
             content = self.init_requests(payload, page)
             if content == -1:
+                sql = f"update {self.project_table} set status = -2 WHERE project_id='{project_id}'" \
+                      f" and productId = '{productId}';"
+                self.eb_supports.do(sql)
+                self.log(f"更新 {productId}")
                 break
             if content == -2:
                 raise ValueError(f"init_requests 握手失败")
