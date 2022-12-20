@@ -7,7 +7,7 @@
     <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
 </head>
 <body>
-<div id="bar" style="width:1000px; height:600px;"></div>
+<div id="bar" style="width:500px; height:300px;"></div>
 <script>
     $(
         function () {
@@ -15,6 +15,40 @@
             $.ajax({
                 type: "GET",
                 url: "http://127.0.0.1:5000/barChart",
+                dataType: 'json',
+                success: function (result) {
+                    chart.setOption(result);
+                }
+            });
+        }
+    )
+</script>
+
+<div id="bar2" style="width:500px; height:300px;"></div>
+<script>
+    $(
+        function () {
+            var chart = echarts.init(document.getElementById('bar2'), 'white', {renderer: 'canvas'});
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:5000/barChart2",
+                dataType: 'json',
+                success: function (result) {
+                    chart.setOption(result);
+                }
+            });
+        }
+    )
+</script>
+
+<div id="bar3" style="width:500px; height:300px;"></div>
+<script>
+    $(
+        function () {
+            var chart = echarts.init(document.getElementById('bar3'), 'white', {renderer: 'canvas'});
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:5000/barChart3",
                 dataType: 'json',
                 success: function (result) {
                     chart.setOption(result);

@@ -27,5 +27,17 @@ def get_bar_chart():
     return c.dump_options_with_quotes()
 
 
+@app.route("/barChart2")
+def get_bar_chart_2():
+    c = bar_base()
+    return c.dump_options_with_quotes()
+
+
+@app.route("/barChart3")
+def get_bar_chart_3():
+    c = bar_base()
+    return c.dump_options_with_quotes()
+
+
 if __name__ == "__main__":
     app.run()
