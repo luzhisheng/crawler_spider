@@ -1,0 +1,23 @@
+.screen--6GoCI {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: flex-start;
+    position: relative;
+    width: 100%;
+}
+
+.component--GgGmF {
+    background: #334066;
+    border-radius: 1.5rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+}
+
+.left, .center, .right {
+    margin: 0 1.0rem;
+}

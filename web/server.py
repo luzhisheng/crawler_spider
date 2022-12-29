@@ -7,7 +7,7 @@ from pyecharts.globals import SymbolType
 from pyecharts.charts import WordCloud
 from pyecharts.charts import Funnel
 
-app = Flask(__name__, static_folder="templates")
+app = Flask(__name__)
 
 
 def bar_base():
@@ -16,7 +16,7 @@ def bar_base():
     bar.add_xaxis(["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"])
     bar.add_yaxis("商家A", [randrange(0, 100) for _ in range(6)])
     bar.add_yaxis("商家B", [randrange(0, 100) for _ in range(6)])
-    bar.set_global_opts(title_opts=opts.TitleOpts(title="Bar-基本示例", subtitle="我是副标题"))
+    bar.set_global_opts(title_opts=opts.TitleOpts())
     return bar
 
 
@@ -65,7 +65,7 @@ def pie_base():
 def pie_diamond():
     liquid = Liquid()
     liquid.add("lq", [0.3, 0.7], is_outline_show=False, shape=SymbolType.DIAMOND)
-    liquid.set_global_opts(title_opts=opts.TitleOpts(title="Liquid-Shape-Diamond"))
+    liquid.set_global_opts(title_opts=opts.TitleOpts(title="Liquid"))
     return liquid
 
 
@@ -86,7 +86,7 @@ def line_areastyle_boundary_gap():
     line.add_xaxis(Faker.choose())
     line.add_yaxis("商家A", Faker.values(), is_smooth=True)
     line.set_series_opts(areastyle_opts=opts.AreaStyleOpts(opacity=0.5), label_opts=opts.LabelOpts(is_show=False), )
-    line.set_global_opts(title_opts=opts.TitleOpts(title="Line-面积图（紧贴 Y 轴）"),
+    line.set_global_opts(title_opts=opts.TitleOpts(title="Line-面积图"),
                          xaxis_opts=opts.AxisOpts(
                              axistick_opts=opts.AxisTickOpts(is_align_with_label=True),
                              is_scale=False,
@@ -120,7 +120,7 @@ def word_cloud_diamond():
     ]
     word_cloud = WordCloud()
     word_cloud.add("", words, word_size_range=[20, 100], shape=SymbolType.DIAMOND)
-    word_cloud.set_global_opts(title_opts=opts.TitleOpts(title="WordCloud-shape-diamond"))
+    word_cloud.set_global_opts(title_opts=opts.TitleOpts())
     return word_cloud
 
 
