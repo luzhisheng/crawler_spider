@@ -9,7 +9,7 @@
 }
 
 .component--GgGmF {
-    background: #334066;
+    background: #b0c0f3a1;
     border-radius: 1.5rem;
     box-sizing: border-box;
     display: flex;
@@ -19,5 +19,9 @@
 }
 
 .left, .center, .right {
-    margin: 0 1.0rem;
+    margin: 0 0.5rem;
+}
+
+td {
+    text-align: center;
 }

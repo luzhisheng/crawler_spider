@@ -1,7 +1,7 @@
 from random import randrange
 from flask import Flask, render_template
 from pyecharts import options as opts
-from pyecharts.charts import Bar, Pie, Liquid, Line
+from pyecharts.charts import Bar, Pie, Liquid, Line, Radar
 from pyecharts.faker import Faker
 from pyecharts.globals import SymbolType
 from pyecharts.charts import WordCloud
@@ -65,7 +65,7 @@ def pie_base():
 def pie_diamond():
     liquid = Liquid()
     liquid.add("lq", [0.3, 0.7], is_outline_show=False, shape=SymbolType.DIAMOND)
-    liquid.set_global_opts(title_opts=opts.TitleOpts(title="Liquid"))
+    liquid.set_global_opts(title_opts=opts.TitleOpts())
     return liquid
 
 
@@ -124,6 +124,27 @@ def word_cloud_diamond():
     return word_cloud
 
 
+def radar_selected_mode():
+    v1 = [[4300, 10000, 28000, 35000, 50000, 19000]]
+    v2 = [[5000, 14000, 28000, 31000, 42000, 21000]]
+    radar = Radar()
+    radar.add_schema(
+            schema=[
+                opts.RadarIndicatorItem(name="销售", max_=6500, color="#0f0f10"),
+                opts.RadarIndicatorItem(name="管理", max_=16000, color="#0f0f10"),
+                opts.RadarIndicatorItem(name="信息技术", max_=30000, color="#0f0f10"),
+                opts.RadarIndicatorItem(name="客服", max_=38000, color="#0f0f10"),
+                opts.RadarIndicatorItem(name="研发", max_=52000, color="#0f0f10"),
+                opts.RadarIndicatorItem(name="市场", max_=25000, color="#0f0f10"),
+            ]
+        )
+    radar.add("预算分配", v1)
+    radar.add("实际开销", v2)
+    radar.set_series_opts(label_opts=opts.LabelOpts(is_show=False))
+    radar.set_global_opts(legend_opts=opts.LegendOpts(selected_mode="single"), title_opts=opts.TitleOpts(),)
+    return radar
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -162,6 +183,12 @@ def get_line_areastyle_boundary_gap():
 @app.route("/word_cloud_diamond")
 def get_lword_cloud_diamond():
     c = word_cloud_diamond()
+    return c.dump_options_with_quotes()
+
+
+@app.route("/radar_selected_mode")
+def get_radar_selected_mode():
+    c = radar_selected_mode()
     return c.dump_options_with_quotes()
 
 

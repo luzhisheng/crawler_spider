@@ -10,7 +10,7 @@
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
 </head>
-<body>
+<body style='background-image: url("{{ url_for('static', filename='img/bg.png') }}");'>
 <div class="screen--6GoCI">
     <div class="left">
         <div id="bar_chart" class="component--GgGmF" style="width:400px; height:240px;"></div>
@@ -30,7 +30,44 @@
             )
         </script>
 
-        <div id="pie_chart" class="component--GgGmF" style="width:400px; height:240px;"></div>
+        <div id="word_cloud_diamond" class="component--GgGmF" style="width:400px; height:240px;"></div>
+        <script>
+            $(
+                function () {
+                    var chart = echarts.init(document.getElementById('word_cloud_diamond'), 'white', {renderer: 'canvas'});
+                    $.ajax({
+                        type: "GET",
+                        url: "http://127.0.0.1:5000/word_cloud_diamond",
+                        dataType: 'json',
+                        success: function (result) {
+                            chart.setOption(result);
+                        }
+                    });
+                }
+            )
+        </script>
+
+        <div id="funnel" class="component--GgGmF" style="width:400px; height:240px;"></div>
+        <script>
+            $(
+                function () {
+                    var chart = echarts.init(document.getElementById('funnel'), 'white', {renderer: 'canvas'});
+                    $.ajax({
+                        type: "GET",
+                        url: "http://127.0.0.1:5000/funnel",
+                        dataType: 'json',
+                        success: function (result) {
+                            chart.setOption(result);
+                        }
+                    });
+                }
+            )
+        </script>
+    </div>
+
+    <div class="center">
+
+        <div id="pie_chart" class="component--GgGmF" style="width:660px; height:500px;"></div>
         <script>
             $(
                 function () {
@@ -47,41 +84,61 @@
             )
         </script>
 
-        <div id="diamond" class="component--GgGmF" style="width:400px; height:240px;"></div>
-        <script>
-            $(
-                function () {
-                    var chart = echarts.init(document.getElementById('diamond'), 'white', {renderer: 'canvas'});
-                    $.ajax({
-                        type: "GET",
-                        url: "http://127.0.0.1:5000/diamond",
-                        dataType: 'json',
-                        success: function (result) {
-                            chart.setOption(result);
-                        }
-                    });
-                }
-            )
-        </script>
-    </div>
-
-    <div class="center">
-        <div id="funnel" class="component--GgGmF" style="width:630px; height:400px;"></div>
-        <script>
-            $(
-                function () {
-                    var chart = echarts.init(document.getElementById('funnel'), 'white', {renderer: 'canvas'});
-                    $.ajax({
-                        type: "GET",
-                        url: "http://127.0.0.1:5000/funnel",
-                        dataType: 'json',
-                        success: function (result) {
-                            chart.setOption(result);
-                        }
-                    });
-                }
-            )
-        </script>
+        <div id="list_content" class="component--GgGmF" style="width:660px; height:240px;">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>名称</th>
+                        <th>价格</th>
+                        <th>曝光-点击转化率</th>
+                        <th>点击-成交转化率</th>
+                        <th>累计成交金额</th>
+                    </tr>
+                    <tr>
+                        <td>钥匙扣</td>
+                        <td>￥114.9</td>
+                        <td>15.33%</td>
+                        <td>6.33%</td>
+                        <td>￥9,696.38</td>
+                    </tr>
+                    <tr>
+                        <td>钥匙扣</td>
+                        <td>￥114.9</td>
+                        <td>15.33%</td>
+                        <td>6.33%</td>
+                        <td>￥9,696.38</td>
+                    </tr>
+                    <tr>
+                        <td>钥匙扣</td>
+                        <td>￥114.9</td>
+                        <td>15.33%</td>
+                        <td>6.33%</td>
+                        <td>￥9,696.38</td>
+                    </tr>
+                    <tr>
+                        <td>钥匙扣</td>
+                        <td>￥114.9</td>
+                        <td>15.33%</td>
+                        <td>6.33%</td>
+                        <td>￥9,696.38</td>
+                    </tr>
+                    <tr>
+                        <td>钥匙扣</td>
+                        <td>￥114.9</td>
+                        <td>15.33%</td>
+                        <td>6.33%</td>
+                        <td>￥9,696.38</td>
+                    </tr>
+                    <tr>
+                        <td>钥匙扣</td>
+                        <td>￥114.9</td>
+                        <td>15.33%</td>
+                        <td>6.33%</td>
+                        <td>￥9,696.38</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="right">
@@ -101,15 +158,14 @@
                 }
             )
         </script>
-
-        <div id="word_cloud_diamond" class="component--GgGmF" style="width:400px; height:240px;"></div>
+        <div id="radar_selected_mode" class="component--GgGmF" style="width:400px; height:500px;"></div>
         <script>
             $(
                 function () {
-                    var chart = echarts.init(document.getElementById('word_cloud_diamond'), 'white', {renderer: 'canvas'});
+                    var chart = echarts.init(document.getElementById('radar_selected_mode'), 'white', {renderer: 'canvas'});
                     $.ajax({
                         type: "GET",
-                        url: "http://127.0.0.1:5000/word_cloud_diamond",
+                        url: "http://127.0.0.1:5000/radar_selected_mode",
                         dataType: 'json',
                         success: function (result) {
                             chart.setOption(result);
