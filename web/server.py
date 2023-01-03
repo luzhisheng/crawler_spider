@@ -1,5 +1,5 @@
 from random import randrange
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, render_template, session
 from pyecharts import options as opts
 from pyecharts.charts import Bar, Pie, Liquid, Line, Radar
 from pyecharts.faker import Faker
@@ -8,6 +8,21 @@ from pyecharts.charts import WordCloud
 from pyecharts.charts import Funnel
 
 app = Flask(__name__)
+
+app.secret_key = 'QWERTYUIOP'  # 对用户信息加密
+
+
+@app.route('/login', methods=['GET', "POST"])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    user = request.form.get('user')
+    pwd = request.form.get('pwd')
+    if user == 'admin' and pwd == '123':
+        session['user_info'] = user
+        return redirect('/index')
+    else:
+        return render_template('login.html', msg='用户名或密码输入错误')
 
 
 def bar_base():
@@ -145,8 +160,11 @@ def radar_selected_mode():
     return radar
 
 
-@app.route("/")
+@app.route("/index")
 def index():
+    user_info = session.get('user_info')
+    if not user_info:
+        return redirect('/login')
     return render_template("index.html")
 
 
