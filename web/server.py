@@ -161,6 +161,7 @@ def radar_selected_mode():
 
 
 @app.route("/index")
+@app.route("/")
 def index():
     user_info = session.get('user_info')
     if not user_info:
