@@ -6,6 +6,20 @@ from pyecharts.faker import Faker
 from pyecharts.globals import SymbolType
 from pyecharts.charts import WordCloud
 from pyecharts.charts import Funnel
+from dao.mysql_dao import StoreMysqlPool
+from pymysql.err import OperationalError
+import platform
+import settings
+
+
+try:
+    if "Ubuntu" in platform.platform():
+        eb_supports = StoreMysqlPool(**settings.mysql_server)
+    else:
+        eb_supports = StoreMysqlPool(**settings.mysql_server_172)
+except OperationalError:
+    eb_supports = StoreMysqlPool(**settings.mysql_server)
+
 
 app = Flask(__name__)
 
@@ -27,53 +41,39 @@ def login():
 
 def bar_base():
     bar = Bar()
-    bar.add_xaxis(["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"])
-    bar.add_xaxis(["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"])
-    bar.add_yaxis("商家A", [randrange(0, 100) for _ in range(6)])
-    bar.add_yaxis("商家B", [randrange(0, 100) for _ in range(6)])
+    sql = """
+        SELECT
+            count(*) 
+        FROM
+            ( SELECT shop_name FROM clean_jd_search_keyword WHERE shop_name != '' GROUP BY shop_name ) AS temp
+    """
+    res = eb_supports.query(sql)
+    bar.add_xaxis([item[1] for item in res])
+    bar.add_yaxis("京东店铺数量", [item[0] for item in res])
     bar.set_global_opts(title_opts=opts.TitleOpts())
     return bar
 
 
 def pie_base():
     pie = Pie()
-    pie.add(
-        "",
-        [list(z) for z in zip(Faker.choose(), Faker.values())],
-        radius=["40%", "55%"],
-        label_opts=opts.LabelOpts(
-            position="outside",
-            formatter="{a|{a}}{abg|}\n{hr|}\n {b|{b}: }{c}  {per|{d}%}  ",
-            background_color="#eee",
-            border_color="#aaa",
-            border_width=1,
-            border_radius=4,
-            rich={
-                "a": {"color": "#999", "lineHeight": 22, "align": "center"},
-                "abg": {
-                    "backgroundColor": "#e3e3e3",
-                    "width": "100%",
-                    "align": "right",
-                    "height": 22,
-                    "borderRadius": [4, 4, 0, 0],
-                },
-                "hr": {
-                    "borderColor": "#aaa",
-                    "width": "100%",
-                    "borderWidth": 0.5,
-                    "height": 0,
-                },
-                "b": {"fontSize": 16, "lineHeight": 33},
-                "per": {
-                    "color": "#eee",
-                    "backgroundColor": "#334455",
-                    "padding": [2, 4],
-                    "borderRadius": 2,
-                },
-            },
-        ),
+    sql = """
+        SELECT
+            data_price_interval,
+            count( data_price_interval ) 
+        FROM
+            clean_jd_search_keyword 
+        GROUP BY
+            data_price_interval 
+        ORDER BY
+            data_price_interval
+    """
+    res = eb_supports.query(sql)
+    pie.add("", res, center=["50%", "60%"])
+    pie.set_global_opts(
+        title_opts=opts.TitleOpts(title="价格区\n间分布"),
+        legend_opts=opts.LegendOpts(pos_left="15%"),
     )
-    pie.set_global_opts(title_opts=opts.TitleOpts())
+    pie.set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
     return pie
 
 
