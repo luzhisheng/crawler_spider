@@ -11,7 +11,6 @@ from pymysql.err import OperationalError
 import platform
 import settings
 
-
 try:
     if "Ubuntu" in platform.platform():
         eb_supports = StoreMysqlPool(**settings.mysql_server)
@@ -19,7 +18,6 @@ try:
         eb_supports = StoreMysqlPool(**settings.mysql_server_172)
 except OperationalError:
     eb_supports = StoreMysqlPool(**settings.mysql_server)
-
 
 app = Flask(__name__)
 
@@ -37,21 +35,6 @@ def login():
         return redirect('/index')
     else:
         return render_template('login.html', msg='用户名或密码输入错误')
-
-
-def bar_base():
-    bar = Bar()
-    sql = """
-        SELECT
-            count(*) 
-        FROM
-            ( SELECT shop_name FROM clean_jd_search_keyword WHERE shop_name != '' GROUP BY shop_name ) AS temp
-    """
-    res = eb_supports.query(sql)
-    bar.add_xaxis([item[1] for item in res])
-    bar.add_yaxis("京东店铺数量", [item[0] for item in res])
-    bar.set_global_opts(title_opts=opts.TitleOpts())
-    return bar
 
 
 def pie_base():
@@ -96,18 +79,35 @@ def funnel():
     return funnel
 
 
-def line_areastyle_boundary_gap():
-    line = Line()
-    line.add_xaxis(Faker.choose())
-    line.add_yaxis("商家A", Faker.values(), is_smooth=True)
-    line.set_series_opts(areastyle_opts=opts.AreaStyleOpts(opacity=0.5), label_opts=opts.LabelOpts(is_show=False), )
-    line.set_global_opts(title_opts=opts.TitleOpts(title="Line-面积图"),
-                         xaxis_opts=opts.AxisOpts(
-                             axistick_opts=opts.AxisTickOpts(is_align_with_label=True),
-                             is_scale=False,
-                             boundary_gap=False,
-                         ),)
-    return line
+def boughnut_chart():
+    sql = """
+        SELECT
+            score,
+            count(score) as score_count
+        FROM
+            clean_jd_comment_product_page_comments_action 
+        GROUP BY
+            score
+        ORDER BY 
+            score DESC
+    """
+    res = eb_supports.query(sql)
+    x_data = ['评分:' + str(item[0]) for item in res]
+    y_data = [item[1] for item in res]
+    pie = Pie()
+    pie.add(
+        series_name="评分分布",
+        data_pair=[list(z) for z in zip(x_data, y_data)],
+        radius=["40%", "90%"],
+        center=["65%", "50%"],
+        label_opts=opts.LabelOpts(is_show=False, position="center"),
+    )
+    pie.set_global_opts(legend_opts=opts.LegendOpts(pos_left="legft", orient="vertical"))
+    pie.set_series_opts(
+        tooltip_opts=opts.TooltipOpts(
+            trigger="item", formatter="{a} <br/>{b}: {c} ({d}%)"
+        ),)
+    return pie
 
 
 def word_cloud_diamond():
@@ -144,19 +144,19 @@ def radar_selected_mode():
     v2 = [[5000, 14000, 28000, 31000, 42000, 21000]]
     radar = Radar()
     radar.add_schema(
-            schema=[
-                opts.RadarIndicatorItem(name="销售", max_=6500, color="#0f0f10"),
-                opts.RadarIndicatorItem(name="管理", max_=16000, color="#0f0f10"),
-                opts.RadarIndicatorItem(name="信息技术", max_=30000, color="#0f0f10"),
-                opts.RadarIndicatorItem(name="客服", max_=38000, color="#0f0f10"),
-                opts.RadarIndicatorItem(name="研发", max_=52000, color="#0f0f10"),
-                opts.RadarIndicatorItem(name="市场", max_=25000, color="#0f0f10"),
-            ]
-        )
+        schema=[
+            opts.RadarIndicatorItem(name="销售", max_=6500, color="#0f0f10"),
+            opts.RadarIndicatorItem(name="管理", max_=16000, color="#0f0f10"),
+            opts.RadarIndicatorItem(name="信息技术", max_=30000, color="#0f0f10"),
+            opts.RadarIndicatorItem(name="客服", max_=38000, color="#0f0f10"),
+            opts.RadarIndicatorItem(name="研发", max_=52000, color="#0f0f10"),
+            opts.RadarIndicatorItem(name="市场", max_=25000, color="#0f0f10"),
+        ]
+    )
     radar.add("预算分配", v1)
     radar.add("实际开销", v2)
     radar.set_series_opts(label_opts=opts.LabelOpts(is_show=False))
-    radar.set_global_opts(legend_opts=opts.LegendOpts(selected_mode="single"), title_opts=opts.TitleOpts(),)
+    radar.set_global_opts(legend_opts=opts.LegendOpts(selected_mode="single"), title_opts=opts.TitleOpts(), )
     return radar
 
 
@@ -167,12 +167,6 @@ def index():
     if not user_info:
         return redirect('/login')
     return render_template("index.html")
-
-
-@app.route("/bar_chart")
-def get_bar_chart():
-    c = bar_base()
-    return c.dump_options_with_quotes()
 
 
 @app.route("/pie_chart")
@@ -193,9 +187,9 @@ def get_funnel():
     return c.dump_options_with_quotes()
 
 
-@app.route("/line_areastyle_boundary_gap")
-def get_line_areastyle_boundary_gap():
-    c = line_areastyle_boundary_gap()
+@app.route("/boughnut_chart")
+def get_boughnut_chart():
+    c = boughnut_chart()
     return c.dump_options_with_quotes()
 
 

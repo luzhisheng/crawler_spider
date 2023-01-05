@@ -25,3 +25,32 @@
 td {
     text-align: center;
 }
+
+.board--HpZ9N {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.sitems--SGmH8 {
+    display: flex;
+}
+
+.item--mIADu {
+    padding: 0.5rem;
+    white-space: nowrap;
+    text-align:center;
+    font-weight: 600;
+    color: #424087;
+}
+
+.item--gukK1 {
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+    color: #424087;
+}
+
+.item--gukK1 p {
+    margin: 12px auto;
+}

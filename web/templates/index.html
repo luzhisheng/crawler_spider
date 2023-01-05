@@ -13,22 +13,28 @@
 <body style='background-image: url("{{ url_for('static', filename='img/bg.png') }}");'>
 <div class="screen--6GoCI">
     <div class="left">
-        <div id="bar_chart" class="component--GgGmF" style="width:400px; height:240px;"></div>
-        <script>
-            $(
-                function () {
-                    var chart = echarts.init(document.getElementById('bar_chart'), 'white', {renderer: 'canvas'});
-                    $.ajax({
-                        type: "GET",
-                        url: "http://127.0.0.1:5000/bar_chart",
-                        dataType: 'json',
-                        success: function (result) {
-                            chart.setOption(result);
-                        }
-                    });
-                }
-            )
-        </script>
+        <div id="bar_chart" class="component--GgGmF" style="width:400px; height:240px;">
+            <div class="board--HpZ9N">
+                <div class="item--gukK1">
+                    <p>监控店铺数量</p>
+                    <p>2000</p>
+                </div>
+                <div class="sitems--SGmH8">
+                    <div class="item--mIADu">
+                        <p>总评论量</p>
+                        <p>1000</p>
+                    </div>
+                    <div class="item--mIADu">
+                        <p>总商品量</p>
+                        <p>1000</p>
+                    </div>
+                    <div class="item--mIADu">
+                        <p>总成交人数</p>
+                        <p>1000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="word_cloud_diamond" class="component--GgGmF" style="width:400px; height:240px;"></div>
         <script>
@@ -142,14 +148,14 @@
     </div>
 
     <div class="right">
-        <div id="line_areastyle_boundary_gap" class="component--GgGmF" style="width:400px; height:240px;"></div>
+        <div id="boughnut_chart" class="component--GgGmF" style="width:400px; height:240px;"></div>
         <script>
             $(
                 function () {
-                    var chart = echarts.init(document.getElementById('line_areastyle_boundary_gap'), 'white', {renderer: 'canvas'});
+                    var chart = echarts.init(document.getElementById('boughnut_chart'), 'white', {renderer: 'canvas'});
                     $.ajax({
                         type: "GET",
-                        url: "http://127.0.0.1:5000/line_areastyle_boundary_gap",
+                        url: "http://127.0.0.1:5000/boughnut_chart",
                         dataType: 'json',
                         success: function (result) {
                             chart.setOption(result);
