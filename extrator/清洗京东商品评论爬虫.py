@@ -25,6 +25,9 @@ class 清洗京东商品评论爬虫(Base):
                 data_json = json.loads(data)
                 comments = data_json.get('comments')
                 for comment in comments:
+                    current_month = comment.get('creationTime')
+                    month = str(current_month).split('-')[1]
+
                     item = {
                         "project_id": project_id,
                         "keyword": keyword,
@@ -36,6 +39,7 @@ class 清洗京东商品评论爬虫(Base):
                         "reply_count": comment.get('replyCount'),
                         "useful_vote_count": comment.get('usefulVoteCount'),
                         "creation_time": comment.get('creationTime'),
+                        "month": month,
                         "product_color": comment.get('productColor')
                     }
                     list_res.append(item)
