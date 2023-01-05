@@ -1,7 +1,7 @@
 from random import randrange
 from flask import Flask, render_template, request, redirect, render_template, session
 from pyecharts import options as opts
-from pyecharts.charts import Bar, Pie, Liquid, Line, Radar
+from pyecharts.charts import Bar, Pie, Grid, Line, Radar
 from pyecharts.faker import Faker
 from pyecharts.globals import SymbolType
 from pyecharts.charts import WordCloud
@@ -60,20 +60,25 @@ def pie_base():
     return pie
 
 
-def pie_diamond():
-    liquid = Liquid()
-    liquid.add("lq", [0.3, 0.7], is_outline_show=False, shape=SymbolType.DIAMOND)
-    liquid.set_global_opts(title_opts=opts.TitleOpts())
-    return liquid
-
-
-def funnel():
+def funnel_sort_ascending():
+    sql = """
+        SELECT
+            `month`,
+            count(`month`) as month_count
+        FROM
+            clean_jd_comment_product_page_comments_action 
+        GROUP BY
+            `month`
+        ORDER BY `month_count` DESC
+        limit 10
+    """
+    res = eb_supports.query(sql)
     funnel = Funnel()
     funnel.add(
-        "商品",
-        [list(z) for z in zip(Faker.choose(), Faker.values())],
+        "月份销量",
+        [list(z) for z in zip([item[0] + '月' for item in res], [item[1] for item in res])],
         sort_="ascending",
-        label_opts=opts.LabelOpts(position="inside"),
+        label_opts=opts.LabelOpts(position="top")
     )
     funnel.set_global_opts(title_opts=opts.TitleOpts())
     return funnel
@@ -106,7 +111,7 @@ def boughnut_chart():
     pie.set_series_opts(
         tooltip_opts=opts.TooltipOpts(
             trigger="item", formatter="{a} <br/>{b}: {c} ({d}%)"
-        ),)
+        ), )
     return pie
 
 
@@ -139,25 +144,28 @@ def word_cloud_diamond():
     return word_cloud
 
 
-def radar_selected_mode():
-    v1 = [[4300, 10000, 28000, 35000, 50000, 19000]]
-    v2 = [[5000, 14000, 28000, 31000, 42000, 21000]]
-    radar = Radar()
-    radar.add_schema(
-        schema=[
-            opts.RadarIndicatorItem(name="销售", max_=6500, color="#0f0f10"),
-            opts.RadarIndicatorItem(name="管理", max_=16000, color="#0f0f10"),
-            opts.RadarIndicatorItem(name="信息技术", max_=30000, color="#0f0f10"),
-            opts.RadarIndicatorItem(name="客服", max_=38000, color="#0f0f10"),
-            opts.RadarIndicatorItem(name="研发", max_=52000, color="#0f0f10"),
-            opts.RadarIndicatorItem(name="市场", max_=25000, color="#0f0f10"),
-        ]
+def bar_datazoom_slider():
+    sql = """
+        SELECT
+            `month`,
+            count(`month`) as month_count
+        FROM
+            clean_jd_comment_product_page_comments_action 
+        GROUP BY
+            `month`
+        ORDER BY `month_count` DESC
+    """
+    res = eb_supports.query(sql)
+    bar = Bar()
+    bar.add_xaxis([item[0] + '月' for item in res])
+    bar.add_yaxis("月份销量", [item[1] for item in res])
+    bar.set_global_opts(
+        title_opts=opts.TitleOpts(),
+        datazoom_opts=opts.DataZoomOpts(),
     )
-    radar.add("预算分配", v1)
-    radar.add("实际开销", v2)
-    radar.set_series_opts(label_opts=opts.LabelOpts(is_show=False))
-    radar.set_global_opts(legend_opts=opts.LegendOpts(selected_mode="single"), title_opts=opts.TitleOpts(), )
-    return radar
+    grid = Grid()
+    grid.add(bar, grid_opts=opts.GridOpts(pos_left="15%"))
+    return grid
 
 
 @app.route("/index")
@@ -175,15 +183,9 @@ def get_pie_chart():
     return c.dump_options_with_quotes()
 
 
-@app.route("/diamond")
-def get_diamond():
-    c = pie_diamond()
-    return c.dump_options_with_quotes()
-
-
-@app.route("/funnel")
-def get_funnel():
-    c = funnel()
+@app.route("/funnel_sort_ascending")
+def get_funnel_sort_ascending():
+    c = funnel_sort_ascending()
     return c.dump_options_with_quotes()
 
 
@@ -199,9 +201,9 @@ def get_lword_cloud_diamond():
     return c.dump_options_with_quotes()
 
 
-@app.route("/radar_selected_mode")
-def get_radar_selected_mode():
-    c = radar_selected_mode()
+@app.route("/bar_datazoom_slider")
+def get_bar_datazoom_slider():
+    c = bar_datazoom_slider()
     return c.dump_options_with_quotes()
 
 
