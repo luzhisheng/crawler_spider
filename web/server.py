@@ -60,28 +60,37 @@ def pie_base():
     return pie
 
 
-def funnel_sort_ascending():
+def bar_reversal_axis():
     sql = """
         SELECT
-            `month`,
-            count(`month`) as month_count
+            shop_name,
+            sum(count_comments_id) as sum_count_comments_id
         FROM
-            clean_jd_comment_product_page_comments_action 
+            (
+            SELECT
+                product_id_search,
+                shop_name,
+                count_comments_id
+            FROM
+                clean_jd_search_keyword z
+            RIGHT JOIN ( SELECT product_id, count( `comments_id` ) AS count_comments_id FROM clean_jd_comment_product_page_comments_action GROUP BY product_id ) x ON x.product_id = z.product_id_search
+            ) AS t
         GROUP BY
-            `month`
-        ORDER BY `month_count` DESC
+            shop_name
+        ORDER BY
+            sum_count_comments_id DESC
         limit 10
     """
     res = eb_supports.query(sql)
-    funnel = Funnel()
-    funnel.add(
-        "月份销量",
-        [list(z) for z in zip([item[0] + '月' for item in res], [item[1] for item in res])],
-        sort_="ascending",
-        label_opts=opts.LabelOpts(position="top")
-    )
-    funnel.set_global_opts(title_opts=opts.TitleOpts())
-    return funnel
+    bar = Bar()
+    bar.add_xaxis([item[0].replace('旗舰店', '').replace('官方', '') for item in res])
+    bar.add_yaxis("店铺销量前10", [item[1] for item in res])
+    bar.reversal_axis()
+    bar.set_series_opts(label_opts=opts.LabelOpts(position="right"))
+    bar.set_global_opts(title_opts=opts.TitleOpts())
+    grid = Grid()
+    grid.add(bar, grid_opts=opts.GridOpts(pos_left="40%"))
+    return grid
 
 
 def boughnut_chart():
@@ -183,9 +192,9 @@ def get_pie_chart():
     return c.dump_options_with_quotes()
 
 
-@app.route("/funnel_sort_ascending")
-def get_funnel_sort_ascending():
-    c = funnel_sort_ascending()
+@app.route("/bar_reversal_axis")
+def get_bar_reversal_axis():
+    c = bar_reversal_axis()
     return c.dump_options_with_quotes()
 
 
