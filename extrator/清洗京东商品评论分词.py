@@ -48,15 +48,13 @@ class 清洗京东商品评论分词(Base):
                 for comment in comments:
                     content = comment.get('content')
                     keywords = self.jieba_cut_article(content)
-
-                    item = {
-                        "project_id": project_id,
-                        "keyword": keyword,
-                        "product_id": product_id,
-                        "comments_id": comment.get('id'),
-                        "cuts": keywords,
-                    }
-                    list_res.append(item)
+                    for keyword in keywords:
+                        item = {
+                            "project_id": project_id,
+                            "comments_id": comment.get('id'),
+                            "cut": keyword
+                        }
+                        list_res.append(item)
 
             db_res = self.eb_supports.insert_many('clean_jd_comment_cuts', list_res)
             if db_res >= 0:
