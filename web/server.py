@@ -1,11 +1,8 @@
-from random import randrange
-from flask import Flask, render_template, request, redirect, render_template, session
+from flask import Flask, request, redirect, render_template, session
 from pyecharts import options as opts
-from pyecharts.charts import Bar, Pie, Grid, Line, Radar
-from pyecharts.faker import Faker
+from pyecharts.charts import Bar, Pie, Grid
 from pyecharts.globals import SymbolType
 from pyecharts.charts import WordCloud
-from pyecharts.charts import Funnel
 from dao.mysql_dao import StoreMysqlPool
 from pymysql.err import OperationalError
 import platform
@@ -125,30 +122,21 @@ def boughnut_chart():
 
 
 def word_cloud_diamond():
-    words = [
-        ("Sam S Club", 10000),
-        ("Macys", 6181),
-        ("Amy Schumer", 4386),
-        ("Jurassic World", 4055),
-        ("Charter Communications", 2467),
-        ("Chick Fil A", 2244),
-        ("Planet Fitness", 1868),
-        ("Pitch Perfect", 1484),
-        ("Express", 1112),
-        ("Home", 865),
-        ("Johnny Depp", 847),
-        ("Lena Dunham", 582),
-        ("Lewis Hamilton", 555),
-        ("KXAN", 550),
-        ("Mary Ellen Mark", 462),
-        ("Farrah Abraham", 366),
-        ("Rita Ora", 360),
-        ("Serena Williams", 282),
-        ("NCAA baseball tournament", 273),
-        ("Point Break", 265),
-    ]
+    sql = """
+        SELECT
+            cut,
+            COUNT( cut ) AS count_cut 
+        FROM
+            clean_jd_comment_cuts 
+        GROUP BY
+            cut 
+        ORDER BY
+            count_cut DESC
+        LIMIT 50;
+    """
+    res = eb_supports.query(sql)
     word_cloud = WordCloud()
-    word_cloud.add("", words, word_size_range=[20, 100], shape=SymbolType.DIAMOND)
+    word_cloud.add("", res, word_size_range=[5, 100], shape=SymbolType.DIAMOND)
     word_cloud.set_global_opts(title_opts=opts.TitleOpts())
     return word_cloud
 
