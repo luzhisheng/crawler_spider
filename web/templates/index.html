@@ -13,28 +13,40 @@
 <body style='background-image: url("{{ url_for('static', filename='img/bg.png') }}");'>
 <div class="screen--6GoCI">
     <div class="left">
-        <div id="bar_chart" class="component--GgGmF" style="width:400px; height:240px;">
+        <div id="monitor_store" class="component--GgGmF" style="width:400px; height:240px;">
             <div class="board--HpZ9N">
                 <div class="item--gukK1">
                     <p>监控店铺数量</p>
-                    <p>2000</p>
+                    <p class="count_shop_name"></p>
                 </div>
                 <div class="sitems--SGmH8">
                     <div class="item--mIADu">
                         <p>总评论量</p>
-                        <p>1000</p>
+                        <p class="count_comments_id"></p>
                     </div>
                     <div class="item--mIADu">
                         <p>总商品量</p>
-                        <p>1000</p>
+                        <p class="count_product_id"></p>
                     </div>
                     <div class="item--mIADu">
-                        <p>总成交人数</p>
-                        <p>1000</p>
+                        <p>总成交金额</p>
+                        <p class="sum_data_price"></p>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            $.ajax({
+                type: "GET",
+                url: 'http://127.0.0.1:5000/monitor_store',
+                success: function (result) {
+                    $(".count_comments_id").html(result.count_comments_id)
+                    $(".count_product_id").html(result.count_product_id)
+                    $(".count_shop_name").html(result.count_shop_name)
+                    $(".sum_data_price").html(result.sum_data_price)
+                }
+            })
+        </script>
 
         <div id="word_cloud_diamond" class="component--GgGmF" style="width:400px; height:240px;"></div>
         <script>

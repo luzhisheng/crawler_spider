@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, session
+from flask import Flask, request, redirect, render_template, session, make_response, jsonify
 from pyecharts import options as opts
 from pyecharts.charts import Bar, Pie, Grid
 from pyecharts.globals import SymbolType
@@ -202,6 +202,53 @@ def get_lword_cloud_diamond():
 def get_bar_datazoom_slider():
     c = bar_datazoom_slider()
     return c.dump_options_with_quotes()
+
+
+@app.route("/monitor_store")
+def get_monitor_store():
+    sql = """
+        SELECT
+            count(*) as count_shop_name
+        FROM
+            ( SELECT shop_name FROM clean_jd_search_keyword GROUP BY shop_name ) AS t
+    """
+    res_count_shop_name = eb_supports.query(sql)
+
+    sql = """
+        SELECT
+            count(*) AS count_comments_id
+        FROM
+            ( SELECT comments_id FROM clean_jd_comment_product_page_comments_action GROUP BY comments_id ) AS t
+    """
+    res_count_comments_id = eb_supports.query(sql)
+
+    sql = """
+        SELECT
+            count(*) AS count_product_id
+        FROM
+            ( SELECT product_id FROM clean_jd_comment_product_page_comments_action GROUP BY product_id ) AS t
+    """
+    res_count_product_id = eb_supports.query(sql)
+
+    sql = """
+        SELECT
+            sum(data_price) as sum_data_price
+        FROM
+            clean_jd_search_keyword z
+            RIGHT JOIN clean_jd_comment_product_page_comments_action x ON x.product_id = z.product_id_search
+    """
+    res_sum_data_price = eb_supports.query(sql)
+
+    data = {
+        'count_shop_name': res_count_shop_name[0][0],
+        'count_comments_id': res_count_comments_id[0][0],
+        'count_product_id': res_count_product_id[0][0],
+        'sum_data_price': res_sum_data_price[0][0],
+    }
+    resp = make_response(jsonify(data))
+    resp.status = "200"
+    resp.headers["ContentType"] = "application/json"
+    return resp
 
 
 if __name__ == "__main__":
