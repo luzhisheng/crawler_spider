@@ -102,61 +102,37 @@
             )
         </script>
 
-        <div id="list_content" class="component--GgGmF" style="width:660px; height:240px;">
+        <div id="product_sales" class="component--GgGmF" style="width:660px; height:240px;">
             <table>
-                <tbody>
-                    <tr>
-                        <th>名称</th>
-                        <th>价格</th>
-                        <th>曝光-点击转化率</th>
-                        <th>点击-成交转化率</th>
-                        <th>累计成交金额</th>
-                    </tr>
-                    <tr>
-                        <td>钥匙扣</td>
-                        <td>￥114.9</td>
-                        <td>15.33%</td>
-                        <td>6.33%</td>
-                        <td>￥9,696.38</td>
-                    </tr>
-                    <tr>
-                        <td>钥匙扣</td>
-                        <td>￥114.9</td>
-                        <td>15.33%</td>
-                        <td>6.33%</td>
-                        <td>￥9,696.38</td>
-                    </tr>
-                    <tr>
-                        <td>钥匙扣</td>
-                        <td>￥114.9</td>
-                        <td>15.33%</td>
-                        <td>6.33%</td>
-                        <td>￥9,696.38</td>
-                    </tr>
-                    <tr>
-                        <td>钥匙扣</td>
-                        <td>￥114.9</td>
-                        <td>15.33%</td>
-                        <td>6.33%</td>
-                        <td>￥9,696.38</td>
-                    </tr>
-                    <tr>
-                        <td>钥匙扣</td>
-                        <td>￥114.9</td>
-                        <td>15.33%</td>
-                        <td>6.33%</td>
-                        <td>￥9,696.38</td>
-                    </tr>
-                    <tr>
-                        <td>钥匙扣</td>
-                        <td>￥114.9</td>
-                        <td>15.33%</td>
-                        <td>6.33%</td>
-                        <td>￥9,696.38</td>
-                    </tr>
+                <tbody class="tbody_product_sales">
                 </tbody>
             </table>
         </div>
+        <script>
+            $.ajax({
+                type: "GET",
+                url: 'http://127.0.0.1:5000/product_sales',
+                success: function (result) {
+                    var str = "           <tr>" +
+                        "                    <th>名称</th>" +
+                        "                    <th>价格</th>" +
+                        "                    <th>销量</th>" +
+                        "                    <th>累计成交金额</th>" +
+                        "                    <th>店铺</th>" +
+                        "                </tr>";
+                    $.each(result, function (key, val) {
+                        str += '<tr>' +
+                            '<td>' + val.product_color + '</td>' +
+                            '<td>' + val.data_price + '</td>' +
+                            '<td>' + val.count_comments_id + '</td>' +
+                            '<td>' + val.product_id_search + '</td>' +
+                            '<td>' + val.shop_name + '</td>' +
+                            '</tr>';
+                    });
+                    $('.tbody_product_sales').html(str);
+                }
+            })
+        </script>
     </div>
 
     <div class="right">

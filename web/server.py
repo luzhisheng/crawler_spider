@@ -251,5 +251,51 @@ def get_monitor_store():
     return resp
 
 
+@app.route("/product_sales")
+def get_product_sales():
+    sql = """
+        SELECT
+            product_color,
+            data_price,
+            sum(count_comments_id) as sum_count_comments_id,
+            data_price * sum(count_comments_id) as total_sales,
+            shop_name
+        FROM
+            (
+            SELECT
+                product_color,
+                data_price,
+                count_comments_id,
+                product_id_search,
+                shop_name 
+            FROM
+                clean_jd_search_keyword z
+            RIGHT JOIN ( SELECT product_id, count( comments_id ) AS count_comments_id, product_color FROM clean_jd_comment_product_page_comments_action GROUP BY product_id ) x ON x.product_id = z.product_id_search 
+            ) t
+        WHERE
+            product_color != ''
+        GROUP BY
+            shop_name
+        ORDER BY
+            total_sales desc
+        LIMIT 6
+    """
+    res_product_sales = eb_supports.query(sql)
+    list_dict = []
+    for product_sales in res_product_sales:
+        data = {
+            'product_color': product_sales[0],
+            'data_price': product_sales[1],
+            'count_comments_id': product_sales[2],
+            'product_id_search': product_sales[3],
+            'shop_name': product_sales[4],
+        }
+        list_dict.append(data)
+    resp = make_response(jsonify(list_dict))
+    resp.status = "200"
+    resp.headers["ContentType"] = "application/json"
+    return resp
+
+
 if __name__ == "__main__":
     app.run()
