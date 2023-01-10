@@ -8,15 +8,13 @@ class 清洗京东搜索列表页面爬虫(Base):
     def __init__(self):
         super(清洗京东搜索列表页面爬虫, self).__init__()
 
-    def clean(self, project_id):
+    def clean(self):
         offset = 0
         while True:
             list_res = []
             sql = f"""
-            select project_id, keyword, url, data from jd_search_keyword where project_id = '{project_id}'
-             and status = 2 LIMIT 200 OFFSET {offset};
+            select project_id, keyword, url, data from jd_search_keyword where status = 0 LIMIT 200 OFFSET {offset};
             """
-            self.log(f"执行的sql{sql}")
             res = self.eb_supports.query(sql)
             if not res:
                 break
@@ -61,7 +59,7 @@ class 清洗京东搜索列表页面爬虫(Base):
                     "project_id": project_id,
                     "keyword": keyword,
                     "url": url,
-                    "product_id": str(product_id),
+                    "product_id_search": str(product_id),
                     "title": title,
                     "data_price": data_price,
                     "data_price_interval": data_price_interval,
@@ -77,14 +75,12 @@ class 清洗京东搜索列表页面爬虫(Base):
         sql = f"""
         update jd_search_keyword set status = 2
         """
-        self.log(f"执行的sql{sql}")
         res = self.eb_supports.query(sql)
 
-    def run(self, project_id):
-        self.clean(project_id)
+    def run(self):
+        self.clean()
 
 
 if __name__ == '__main__':
-    project_id = 'dzx-110000'
     qc = 清洗京东搜索列表页面爬虫()
-    qc.run(project_id)
+    qc.run()

@@ -28,15 +28,14 @@ class 清洗京东商品评论分词(Base):
             else:
                 return []
 
-    def clean(self, project_id):
+    def clean(self):
         offset = 0
         while True:
             list_res = []
             sql = f"""
                 select project_id, keyword, product_id, page, data from jd_comment_product_page_comments_action where
-                 project_id = '{project_id}' LIMIT 200 OFFSET {offset};
+                 extractor_comments_cut_status = 0 LIMIT 200 OFFSET {offset};
             """
-            self.log(f"执行的sql{sql}")
             res = self.eb_supports.query(sql)
 
             if not res:
@@ -61,11 +60,15 @@ class 清洗京东商品评论分词(Base):
                 self.log(f"入库成功 {db_res}")
             offset += 200
 
-    def run(self, project_id):
-        self.clean(project_id)
+        sql = f"""
+        update jd_comment_product_page_comments_action set extractor_comments_cut_status = 2
+        """
+        self.eb_supports.query(sql)
+
+    def run(self):
+        self.clean()
 
 
 if __name__ == '__main__':
-    project_id = 'dzx-110000'
     qc = 清洗京东商品评论分词()
-    qc.run(project_id)
+    qc.run()

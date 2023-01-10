@@ -7,15 +7,14 @@ class 清洗京东商品评论爬虫(Base):
     def __init__(self):
         super(清洗京东商品评论爬虫, self).__init__()
 
-    def clean(self, project_id):
+    def clean(self):
         offset = 0
         while True:
             list_res = []
             sql = f"""
                 select project_id, keyword, product_id, page, data from jd_comment_product_page_comments_action where
-                 project_id = '{project_id}' and status = 0 LIMIT 200 OFFSET {offset};
+                 extractor_comments_status = 0 LIMIT 200 OFFSET {offset};
             """
-            self.log(f"执行的sql{sql}")
             res = self.eb_supports.query(sql)
 
             if not res:
@@ -49,16 +48,14 @@ class 清洗京东商品评论爬虫(Base):
             offset += 200
 
         sql = f"""
-        update jd_comment_product_page_comments_action set status = 2
+        update jd_comment_product_page_comments_action set extractor_comments_status = 2
         """
-        self.log(f"执行的sql{sql}")
         self.eb_supports.query(sql)
 
-    def run(self, project_id):
-        self.clean(project_id)
+    def run(self):
+        self.clean()
 
 
 if __name__ == '__main__':
-    project_id = 'dzx-110000'
     qc = 清洗京东商品评论爬虫()
-    qc.run(project_id)
+    qc.run()
