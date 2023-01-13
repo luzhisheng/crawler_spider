@@ -58,3 +58,7 @@ input{
     border-radius: 5px;
     margin: 0;
 }
+
+form h3{
+    color: #fff;
+}
