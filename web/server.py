@@ -1,177 +1,74 @@
-from flask import Flask, request, redirect, render_template, session, make_response, jsonify
-from pyecharts import options as opts
-from pyecharts.charts import Bar, Pie, Grid
-from pyecharts.globals import SymbolType
-from pyecharts.charts import WordCloud
-from dao.mysql_dao import StoreMysqlPool
-from pymysql.err import OperationalError
-import platform
-import settings
-
-try:
-    if "Ubuntu" in platform.platform():
-        eb_supports = StoreMysqlPool(**settings.mysql_server)
-    else:
-        eb_supports = StoreMysqlPool(**settings.mysql_server_172)
-except OperationalError:
-    eb_supports = StoreMysqlPool(**settings.mysql_server)
-
-app = Flask(__name__)
-
-app.secret_key = 'QWERTYUIOP'  # 对用户信息加密
+from flask import Flask, request, redirect, render_template, session, make_response, jsonify, url_for
+from flask_login import LoginManager, current_user
+from flask_login import logout_user, login_user, login_required
+from app.user import User, get_user, create_user
+from app.jd_charts import pie_base, boughnut_chart, bar_reversal_axis, word_cloud_diamond, bar_datazoom_slider
+from form.signup_form import SignupForm
+from form.login_form import LoginForm
+from base import eb_supports
 
 
-@app.route('/login', methods=['GET', "POST"])
+app = Flask(__name__)  # 创建 Flask 应用
+app.secret_key = 'abc'  # 设置表单交互密钥
+login_manager = LoginManager()  # 实例化登录管理对象
+login_manager.init_app(app)  # 初始化应用
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'login'  # 设置用户登录视图函数 endpoint
+
+
+@login_manager.user_loader  # 定义获取登录用户的方法
+def load_user(user_id):
+    return User.get(user_id)
+
+
+@app.route('/signup', methods=('GET', 'POST'))  # 注册
+def signup():
+    form = SignupForm()
+    emsg = None
+    if form.validate_on_submit():
+        user_name = form.username.data
+        password = form.password.data
+
+        user_info = get_user(user_name)  # 用用户名获取用户信息
+        if user_info is None:
+            create_user(user_name, password)  # 如果不存在则创建用户
+            return redirect(url_for("login"))  # 创建后跳转到登录页
+        else:
+            emsg = "用户名已存在"  # 如果用户已存在则给出错误提示
+    return render_template('signup.html', form=form, emsg=emsg)
+
+
+@app.route('/login', methods=('GET', 'POST'))  # 登录
 def login():
-    if request.method == 'GET':
-        return render_template('login.html')
-    user = request.form.get('user')
-    pwd = request.form.get('pwd')
-    if user == 'admin' and pwd == '123':
-        session['user_info'] = user
-        return redirect('/index')
-    else:
-        return render_template('login.html', msg='用户名或密码输入错误')
+    form = LoginForm()
+    emsg = None
+    if form.validate_on_submit():
+        user_name = form.username.data
+        password = form.password.data
+        user_info = get_user(user_name)
+        if user_info is None:
+            emsg = "用户名或密码密码有误"
+        else:
+            user = User(user_info)
+            if user.verify_password(password):
+                login_user(user)
+                return redirect(request.args.get('next') or url_for('index'))
+            else:
+                emsg = "用户名或密码密码有误"
+    return render_template('login.html', form=form, emsg=emsg)
 
 
-def pie_base():
-    pie = Pie()
-    sql = """
-        SELECT
-            data_price_interval,
-            count( data_price_interval ) 
-        FROM
-            clean_jd_search_keyword 
-        GROUP BY
-            data_price_interval 
-        ORDER BY
-            data_price_interval
-    """
-    res = eb_supports.query(sql)
-    pie.add("", res, center=["50%", "60%"])
-    pie.set_global_opts(
-        title_opts=opts.TitleOpts(title="价格区\n间分布"),
-        legend_opts=opts.LegendOpts(pos_left="15%"),
-    )
-    pie.set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
-    return pie
-
-
-def bar_reversal_axis():
-    sql = """
-        SELECT
-            shop_name,
-            sum(count_comments_id) as sum_count_comments_id
-        FROM
-            (
-            SELECT
-                product_id_search,
-                shop_name,
-                count_comments_id
-            FROM
-                clean_jd_search_keyword z
-            RIGHT JOIN ( SELECT product_id, count( `comments_id` ) AS count_comments_id FROM clean_jd_comment_product_page_comments_action GROUP BY product_id ) x ON x.product_id = z.product_id_search
-            ) AS t
-        GROUP BY
-            shop_name
-        ORDER BY
-            sum_count_comments_id DESC
-        limit 10
-    """
-    res = eb_supports.query(sql)
-    bar = Bar()
-    bar.add_xaxis([item[0].replace('旗舰店', '').replace('官方', '') for item in res])
-    bar.add_yaxis("店铺销量前10", [item[1] for item in res])
-    bar.reversal_axis()
-    bar.set_series_opts(label_opts=opts.LabelOpts(position="right"))
-    bar.set_global_opts(title_opts=opts.TitleOpts())
-    grid = Grid()
-    grid.add(bar, grid_opts=opts.GridOpts(pos_left="40%"))
-    return grid
-
-
-def boughnut_chart():
-    sql = """
-        SELECT
-            score,
-            count(score) as score_count
-        FROM
-            clean_jd_comment_product_page_comments_action 
-        GROUP BY
-            score
-        ORDER BY 
-            score DESC
-    """
-    res = eb_supports.query(sql)
-    x_data = ['评分:' + str(item[0]) for item in res]
-    y_data = [item[1] for item in res]
-    pie = Pie()
-    pie.add(
-        series_name="评分分布",
-        data_pair=[list(z) for z in zip(x_data, y_data)],
-        radius=["40%", "90%"],
-        center=["65%", "50%"],
-        label_opts=opts.LabelOpts(is_show=False, position="center"),
-    )
-    pie.set_global_opts(legend_opts=opts.LegendOpts(pos_left="legft", orient="vertical"))
-    pie.set_series_opts(
-        tooltip_opts=opts.TooltipOpts(
-            trigger="item", formatter="{a} <br/>{b}: {c} ({d}%)"
-        ), )
-    return pie
-
-
-def word_cloud_diamond():
-    sql = """
-        SELECT
-            cut,
-            COUNT( cut ) AS count_cut 
-        FROM
-            clean_jd_comment_cuts 
-        GROUP BY
-            cut 
-        ORDER BY
-            count_cut DESC
-        LIMIT 50;
-    """
-    res = eb_supports.query(sql)
-    word_cloud = WordCloud()
-    word_cloud.add("", res, word_size_range=[5, 100], shape=SymbolType.DIAMOND)
-    word_cloud.set_global_opts(title_opts=opts.TitleOpts())
-    return word_cloud
-
-
-def bar_datazoom_slider():
-    sql = """
-        SELECT
-            `month`,
-            count(`month`) as month_count
-        FROM
-            clean_jd_comment_product_page_comments_action 
-        GROUP BY
-            `month`
-        ORDER BY `month_count` DESC
-    """
-    res = eb_supports.query(sql)
-    bar = Bar()
-    bar.add_xaxis([item[0] + '月' for item in res])
-    bar.add_yaxis("月份销量", [item[1] for item in res])
-    bar.set_global_opts(
-        title_opts=opts.TitleOpts(),
-        datazoom_opts=opts.DataZoomOpts(),
-    )
-    grid = Grid()
-    grid.add(bar, grid_opts=opts.GridOpts(pos_left="15%"))
-    return grid
-
-
-@app.route("/index")
-@app.route("/")
+@app.route('/')  # 首页
+@login_required  # 需要登录才能访问
 def index():
-    user_info = session.get('user_info')
-    if not user_info:
-        return redirect('/login')
-    return render_template("index.html")
+    return render_template('index.html', username=current_user.username)
+
+
+@app.route('/logout')  # 登出
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 
 @app.route("/pie_chart")
