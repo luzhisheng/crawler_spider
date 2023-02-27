@@ -45,7 +45,7 @@ class 京东商品评论爬虫(Base):
                               ' Chrome/108.0.0.0 Safari/537.36',
                 'Content-Type': 'application/json',
                 'referer': 'https://item.jd.com/',
-                'Cookie': 'jwotest_product=99; __jdu=104242150;'
+                'Cookie': f'__jdu={round(time.time() * 1000)}1922069937'
             }
             response = requests.request("GET", url=url, headers=headers)
             response_text = response.text

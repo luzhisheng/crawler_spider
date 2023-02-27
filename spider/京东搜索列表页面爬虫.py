@@ -43,6 +43,7 @@ class 京东搜索列表页面爬虫(Base):
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
                               ' Chrome/108.0.0.0 Safari/537.36',
                 'Content-Type': 'application/json',
+                'Cookie': f'__jdu={round(time.time() * 1000)}1922069937'
             }
             response = requests.request("GET", url=url, headers=headers)
             content = response.text
