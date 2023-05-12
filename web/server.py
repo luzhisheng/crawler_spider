@@ -5,7 +5,7 @@ from app.user import User, get_user, create_user
 from app.jd_charts import pie_base, boughnut_chart, bar_reversal_axis, word_cloud_diamond, bar_datazoom_slider
 from form.signup_form import SignupForm
 from form.login_form import LoginForm
-from base import eb_supports
+
 
 app = Flask(__name__)  # 创建 Flask 应用
 app.secret_key = 'abc'  # 设置表单交互密钥
@@ -102,6 +102,7 @@ def get_bar_datazoom_slider():
 
 @app.route("/monitor_store")
 def get_monitor_store():
+    from base import eb_supports
     sql = """
         SELECT
             count(*) as count_shop_name
@@ -149,6 +150,7 @@ def get_monitor_store():
 
 @app.route("/product_sales")
 def get_product_sales():
+    from base import eb_supports
     sql = """
         SELECT
             LEFT(product_color,20) as product_color,

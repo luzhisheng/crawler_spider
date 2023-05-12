@@ -2,10 +2,10 @@ from pyecharts import options as opts
 from pyecharts.charts import Bar, Pie, Grid
 from pyecharts.globals import SymbolType
 from pyecharts.charts import WordCloud
-from base import eb_supports
 
 
 def pie_base():
+    from base import eb_supports
     pie = Pie()
     sql = """
         SELECT
@@ -29,6 +29,7 @@ def pie_base():
 
 
 def bar_reversal_axis():
+    from base import eb_supports
     sql = """
         SELECT
             shop_name,
@@ -62,6 +63,7 @@ def bar_reversal_axis():
 
 
 def boughnut_chart():
+    from base import eb_supports
     sql = """
         SELECT
             score,
@@ -93,6 +95,7 @@ def boughnut_chart():
 
 
 def word_cloud_diamond():
+    from base import eb_supports
     sql = """
         SELECT
             cut,
@@ -113,6 +116,7 @@ def word_cloud_diamond():
 
 
 def bar_datazoom_slider():
+    from base import eb_supports
     sql = """
         SELECT
             `month`,
