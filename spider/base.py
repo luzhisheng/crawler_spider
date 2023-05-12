@@ -9,10 +9,10 @@ class Base(object):
 
     def __init__(self):
         try:
-            if "Linux-5.0.0" in platform.platform() or 'Ubuntu' in platform.platform():
+            if "window" in platform.platform():
                 self.eb_supports = StoreMysqlPool(**settings.mysql_server)
             else:
-                self.eb_supports = StoreMysqlPool(**settings.mysql_server_172)
+                self.eb_supports = StoreMysqlPool(**settings.mysql_server_127)
         except OperationalError:
             self.eb_supports = StoreMysqlPool(**settings.mysql_server)
 

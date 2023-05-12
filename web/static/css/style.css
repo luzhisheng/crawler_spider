@@ -8,6 +8,13 @@
     width: 100%;
 }
 
+tbody {
+    font-size: 9px;
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
 .component--GgGmF {
     background: #d5eaef;
     border-radius: 1.5rem;

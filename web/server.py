@@ -7,7 +7,6 @@ from form.signup_form import SignupForm
 from form.login_form import LoginForm
 from base import eb_supports
 
-
 app = Flask(__name__)  # 创建 Flask 应用
 app.secret_key = 'abc'  # 设置表单交互密钥
 login_manager = LoginManager()  # 实例化登录管理对象
@@ -152,7 +151,7 @@ def get_monitor_store():
 def get_product_sales():
     sql = """
         SELECT
-            product_color,
+            LEFT(product_color,20) as product_color,
             data_price,
             sum(count_comments_id) as sum_count_comments_id,
             data_price * sum(count_comments_id) as total_sales,
@@ -175,7 +174,7 @@ def get_product_sales():
             shop_name
         ORDER BY
             total_sales desc
-        LIMIT 6
+        LIMIT 9
     """
     res_product_sales = eb_supports.query(sql)
     list_dict = []
@@ -195,4 +194,4 @@ def get_product_sales():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=5000, debug=True)

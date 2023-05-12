@@ -5,9 +5,9 @@ import settings
 
 
 try:
-    if "Ubuntu" in platform.platform() or "Linux-5.0.0" in platform.platform():
+    if "window" in platform.platform():
         eb_supports = StoreMysqlPool(**settings.mysql_server)
     else:
-        eb_supports = StoreMysqlPool(**settings.mysql_server_172)
+        eb_supports = StoreMysqlPool(**settings.mysql_server_127)
 except OperationalError:
     eb_supports = StoreMysqlPool(**settings.mysql_server)

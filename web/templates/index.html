@@ -38,7 +38,7 @@
         <script>
             $.ajax({
                 type: "GET",
-                url: 'http://127.0.0.1:5000/monitor_store',
+                url: '/monitor_store',
                 success: function (result) {
                     $(".count_comments_id").html(result.count_comments_id)
                     $(".count_product_id").html(result.count_product_id)
@@ -55,7 +55,7 @@
                     var chart = echarts.init(document.getElementById('word_cloud_diamond'), 'white', {renderer: 'canvas'});
                     $.ajax({
                         type: "GET",
-                        url: "http://127.0.0.1:5000/word_cloud_diamond",
+                        url: "/word_cloud_diamond",
                         dataType: 'json',
                         success: function (result) {
                             chart.setOption(result);
@@ -72,7 +72,7 @@
                     var chart = echarts.init(document.getElementById('bar_datazoom_slider'), 'white', {renderer: 'canvas'});
                     $.ajax({
                         type: "GET",
-                        url: "http://127.0.0.1:5000/bar_datazoom_slider",
+                        url: "/bar_datazoom_slider",
                         dataType: 'json',
                         success: function (result) {
                             chart.setOption(result);
@@ -92,7 +92,7 @@
                     var chart = echarts.init(document.getElementById('pie_chart'), 'white', {renderer: 'canvas'});
                     $.ajax({
                         type: "GET",
-                        url: "http://127.0.0.1:5000/pie_chart",
+                        url: "/pie_chart",
                         dataType: 'json',
                         success: function (result) {
                             chart.setOption(result);
@@ -111,7 +111,7 @@
         <script>
             $.ajax({
                 type: "GET",
-                url: 'http://127.0.0.1:5000/product_sales',
+                url: '/product_sales',
                 success: function (result) {
                     var str = "           <tr>" +
                         "                    <th>名称</th>" +
@@ -143,7 +143,7 @@
                     var chart = echarts.init(document.getElementById('boughnut_chart'), 'white', {renderer: 'canvas'});
                     $.ajax({
                         type: "GET",
-                        url: "http://127.0.0.1:5000/boughnut_chart",
+                        url: "/boughnut_chart",
                         dataType: 'json',
                         success: function (result) {
                             chart.setOption(result);
@@ -159,7 +159,7 @@
                     var chart = echarts.init(document.getElementById('bar_reversal_axis'), 'white', {renderer: 'canvas'});
                     $.ajax({
                         type: "GET",
-                        url: "http://127.0.0.1:5000/bar_reversal_axis",
+                        url: "/bar_reversal_axis",
                         dataType: 'json',
                         success: function (result) {
                             chart.setOption(result);
