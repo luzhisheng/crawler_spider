@@ -1,0 +1,6 @@
+FROM python:3.10
+ENV TimeZone=Asia/Shanghai REDIS_PWD=ayf@ddwfc DB_PASSWORD_DADUODUO=ww123456 ENV_REPLACE_API=prod
+RUN ln -snf /usr/share/zoneinfo/$TimeZone /etc/localtime && echo $TimeZone > /etc/timezone
+RUN pip install -U pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    && apt-get update \
+    && apt-get -y install vim

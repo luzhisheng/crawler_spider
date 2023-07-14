@@ -1,0 +1,6 @@
+FROM crawler_base
+WORKDIR /data
+ADD . /data/crawler_program
+RUN pip install --no-cache-dir -r /data/crawler_program/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+WORKDIR /data/crawler_program/
+CMD [ "python", "xxxxxxxxxxxxx.py" ]

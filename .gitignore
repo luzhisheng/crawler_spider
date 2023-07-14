@@ -6,4 +6,3 @@
 *.zip
 *.pyc
 venv/
-settings.py
