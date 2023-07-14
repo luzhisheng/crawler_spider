@@ -2,10 +2,10 @@ from base import Base
 import datetime
 
 
-class 创建达多多达人主播简介任务爬虫(Base):
+class 创建xxxxxxxxx任务爬虫(Base):
 
     def __init__(self):
-        super(创建达多多达人主播简介任务爬虫, self).__init__()
+        super(创建xxxxxxxxx任务爬虫, self).__init__()
         self.project_table = 'project_daduoduo_dy_author_detail'
 
     def project(self, tasks: list):
@@ -18,7 +18,7 @@ class 创建达多多达人主播简介任务爬虫(Base):
         for task in tasks:
             task_id = task.get("task_id")
             userId = task.get("userId")
-            payload = f"https://www.daduoduo.com/ajax/dyPeopleDetailAjax.ashx?action=GetPeopleDetail&authorId={userId}"
+            payload = f"https://www.xxxxxxxxxx.com/authorId={userId}"
             item = {
                 "task_id": task_id,
                 "payload_get": payload,
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     now = datetime.datetime.now()
     date = now.strftime('%Y_%m_%d_%H_%M_%S')
     task_id = f'project_daduoduo_dy_author_detail-{date}'
-    d = 创建达多多达人主播简介任务爬虫()
+    d = 创建xxxxxxxxx任务爬虫()
     weight = 1
     offset = 0
     while True:

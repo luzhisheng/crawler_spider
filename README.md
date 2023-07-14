@@ -1,5 +1,14 @@
-## crawler_spider
-尝试着建立属于自己的系统架构，更新中
+# crawler_spider
+
+这是一个简单的多任务爬虫系统，没有复杂后台系统，没有复杂程序配置规则，什么样代码写在什么里面就ok了
+
+主要功能requests发起爬虫请求，简单的语法进行清洗数据，通过Greenlet协程调用redis队列串连起整合程序的运行。
+
+## 性能测试
+
+爬虫数据：看你心情，要多快
+
+清洗数据：单机24小时清洗4000万次
 
 ## 代码流程图
 
@@ -20,8 +29,6 @@
 ├── spider           爬虫代码
 ├── sql              创建数据库表的语句
 ├── tool             工具类
-└── web              web展示程序
-└── api              开放接口
 ```
 
 ## 如何运行
@@ -31,9 +38,9 @@
 3. 运行
 
 ```PYTHON
-python main_extrator_daduoduo.py  # 运行清洗数据
-python main_spider_daduoduo.py  # 运行爬虫
-python main_spider_test.py  # 轮询检测未被抓取的数据
+python main_extrator_xxxxx.py  # 运行清洗数据
+python main_spider_xxxxx.py  # 运行爬虫
+python main_spider_test.py  # 轮询检测未被抓取的数据（本地测试用）
 ```
 
 ## 工具代码
@@ -41,7 +48,6 @@ python main_spider_test.py  # 轮询检测未被抓取的数据
         redis.conf 配置文件
         导出数据库表结构.py
         清空爬虫任务数据.py
-        通过直播间id抓取任务.py
 
 ## docker日志
 
@@ -62,7 +68,7 @@ python main_spider_test.py  # 轮询检测未被抓取的数据
     docker run -d --name=crawler_monitor --network=host --restart=always xxxxx
 ```
 
-## docker 数据库部署
+## docker redis部署
 
 ```powershell
     线上
