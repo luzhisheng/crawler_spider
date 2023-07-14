@@ -34,7 +34,7 @@
 ## 如何运行
 
 1. 先创建数据库表：sql目录下有数据库表结构文件
-2. 需要手动获取cookie信息，插入`daduoduo_dy_sign`sql表中
+2. 需要手动获取cookie信息，插入`xxxxx_dy_sign`sql表中
 3. 运行
 
 ```PYTHON
@@ -91,7 +91,7 @@ SELECT
 FROM
     information_schema.TABLES 
 WHERE
-    table_schema = 'eb_supports_daduoduo' 
+    table_schema = 'eb_supports_xxxxx' 
 ORDER BY
     data_length DESC,
     index_length DESC;

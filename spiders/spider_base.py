@@ -24,5 +24,5 @@ class SpiderBase(Base):
 
 if __name__ == '__main__':
     sb = SpiderBase()
-    sb.close_spider('daduoduo_dy_live_room_goods', 'project_daduoduo_dy_live-2023_06_19_11_49_22', 1)
-    # sb.start_spider('daduoduo_dy_live_room_flow_info', 1)
+    sb.close_spider('xxxxx_dy_live_room_goods', 'project_xxxxx_dy_live-2023_06_19_11_49_22', 1)
+    # sb.start_spider('xxxxx_dy_live_room_flow_info', 1)

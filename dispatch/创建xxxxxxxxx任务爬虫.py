@@ -6,7 +6,7 @@ class 创建xxxxxxxxx任务爬虫(Base):
 
     def __init__(self):
         super(创建xxxxxxxxx任务爬虫, self).__init__()
-        self.project_table = 'project_daduoduo_dy_author_detail'
+        self.project_table = 'project_xxxxx_dy_author_detail'
 
     def project(self, tasks: list):
         """
@@ -34,7 +34,7 @@ class 创建xxxxxxxxx任务爬虫(Base):
 if __name__ == '__main__':
     now = datetime.datetime.now()
     date = now.strftime('%Y_%m_%d_%H_%M_%S')
-    task_id = f'project_daduoduo_dy_author_detail-{date}'
+    task_id = f'project_xxxxx_dy_author_detail-{date}'
     d = 创建xxxxxxxxx任务爬虫()
     weight = 1
     offset = 0
@@ -43,13 +43,13 @@ if __name__ == '__main__':
             SELECT
                 distinct UserId 
             FROM
-                clean_daduoduo_dy_author_search_list 
+                clean_xxxxx_dy_author_search_list 
             WHERE
                 UserId NOT IN (
                 SELECT
                     UserId 
                 FROM
-                clean_daduoduo_dy_author_detail 
+                clean_xxxxx_dy_author_detail 
                 )
             LIMIT 1000 OFFSET {offset}
         """

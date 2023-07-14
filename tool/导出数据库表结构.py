@@ -10,14 +10,14 @@ def export_database_table_structure(host, user, password, db, path):
     print(result)
 
 
-def daduoduo_tabel():
-    host = settings.mysql_server_daduoduo.get('host')
-    user = settings.mysql_server_daduoduo.get('user')
-    password = settings.mysql_server_daduoduo.get('password')
-    db = settings.mysql_server_daduoduo.get('db')
-    path_dir = f'{PATH_STR}/sql/daduoduo/{db}.sql'
+def xxxxx_tabel():
+    host = settings.mysql_server_xxxxx.get('host')
+    user = settings.mysql_server_xxxxx.get('user')
+    password = settings.mysql_server_xxxxx.get('password')
+    db = settings.mysql_server_xxxxx.get('db')
+    path_dir = f'{PATH_STR}/sql/xxxxx/{db}.sql'
     export_database_table_structure(host, user, password, db, path_dir)
 
 
 if __name__ == '__main__':
-    daduoduo_tabel()
+    xxxxx_tabel()

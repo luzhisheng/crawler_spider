@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.33, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: eb_supports_daduoduo
+-- Host: 127.0.0.1    Database: eb_supports_xxxxx
 -- ------------------------------------------------------
 -- Server version	5.7.42
 
@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `clean_daduoduo_dy_author_detail`
+-- Table structure for table `clean_xxxxx_dy_author_detail`
 --
 
-DROP TABLE IF EXISTS `clean_daduoduo_dy_author_detail`;
+DROP TABLE IF EXISTS `clean_xxxxx_dy_author_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `clean_daduoduo_dy_author_detail` (
+CREATE TABLE `clean_xxxxx_dy_author_detail` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `updateTime` varchar(50) DEFAULT '' COMMENT '时间',
   `Name` varchar(100) DEFAULT '' COMMENT '抖音号名称',
@@ -62,13 +62,13 @@ CREATE TABLE `clean_daduoduo_dy_author_detail` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `clean_daduoduo_dy_author_room_info`
+-- Table structure for table `clean_xxxxx_dy_author_room_info`
 --
 
-DROP TABLE IF EXISTS `clean_daduoduo_dy_author_room_info`;
+DROP TABLE IF EXISTS `clean_xxxxx_dy_author_room_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `clean_daduoduo_dy_author_room_info` (
+CREATE TABLE `clean_xxxxx_dy_author_room_info` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `authorId` varchar(100) DEFAULT NULL COMMENT '抖音id',
   `BeginTime` varchar(50) DEFAULT '' COMMENT '开播时间',
@@ -94,13 +94,13 @@ CREATE TABLE `clean_daduoduo_dy_author_room_info` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `clean_daduoduo_dy_author_search_list`
+-- Table structure for table `clean_xxxxx_dy_author_search_list`
 --
 
-DROP TABLE IF EXISTS `clean_daduoduo_dy_author_search_list`;
+DROP TABLE IF EXISTS `clean_xxxxx_dy_author_search_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `clean_daduoduo_dy_author_search_list` (
+CREATE TABLE `clean_xxxxx_dy_author_search_list` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `AwemeCnt` int(12) DEFAULT '0',
   `AwemeGmv` int(12) DEFAULT '0',
@@ -149,13 +149,13 @@ CREATE TABLE `clean_daduoduo_dy_author_search_list` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `clean_daduoduo_dy_live_room_detail`
+-- Table structure for table `clean_xxxxx_dy_live_room_detail`
 --
 
-DROP TABLE IF EXISTS `clean_daduoduo_dy_live_room_detail`;
+DROP TABLE IF EXISTS `clean_xxxxx_dy_live_room_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `clean_daduoduo_dy_live_room_detail` (
+CREATE TABLE `clean_xxxxx_dy_live_room_detail` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `RoomId` varchar(100) DEFAULT NULL,
   `people_FansCnt` int(10) DEFAULT '0' COMMENT '粉丝',
@@ -193,13 +193,13 @@ CREATE TABLE `clean_daduoduo_dy_live_room_detail` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `clean_daduoduo_dy_live_room_flow_info`
+-- Table structure for table `clean_xxxxx_dy_live_room_flow_info`
 --
 
-DROP TABLE IF EXISTS `clean_daduoduo_dy_live_room_flow_info`;
+DROP TABLE IF EXISTS `clean_xxxxx_dy_live_room_flow_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `clean_daduoduo_dy_live_room_flow_info` (
+CREATE TABLE `clean_xxxxx_dy_live_room_flow_info` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `RoomId` varchar(100) DEFAULT NULL,
   `FavCnt` int(12) DEFAULT '0' COMMENT '粉丝',
@@ -219,13 +219,13 @@ CREATE TABLE `clean_daduoduo_dy_live_room_flow_info` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `clean_daduoduo_dy_live_room_goods`
+-- Table structure for table `clean_xxxxx_dy_live_room_goods`
 --
 
-DROP TABLE IF EXISTS `clean_daduoduo_dy_live_room_goods`;
+DROP TABLE IF EXISTS `clean_xxxxx_dy_live_room_goods`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `clean_daduoduo_dy_live_room_goods` (
+CREATE TABLE `clean_xxxxx_dy_live_room_goods` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `RoomId` varchar(100) DEFAULT NULL,
   `Gmv` varchar(50) DEFAULT '' COMMENT '销售额',
@@ -245,13 +245,13 @@ CREATE TABLE `clean_daduoduo_dy_live_room_goods` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `clean_daduoduo_dy_live_search_list`
+-- Table structure for table `clean_xxxxx_dy_live_search_list`
 --
 
-DROP TABLE IF EXISTS `clean_daduoduo_dy_live_search_list`;
+DROP TABLE IF EXISTS `clean_xxxxx_dy_live_search_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `clean_daduoduo_dy_live_search_list` (
+CREATE TABLE `clean_xxxxx_dy_live_search_list` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `BeginTime` varchar(50) DEFAULT '' COMMENT '开播时间',
   `Gmv` varchar(50) DEFAULT '' COMMENT '销售额',
@@ -275,13 +275,13 @@ CREATE TABLE `clean_daduoduo_dy_live_search_list` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `daduoduo_dy_author_detail`
+-- Table structure for table `xxxxx_dy_author_detail`
 --
 
-DROP TABLE IF EXISTS `daduoduo_dy_author_detail`;
+DROP TABLE IF EXISTS `xxxxx_dy_author_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `daduoduo_dy_author_detail` (
+CREATE TABLE `xxxxx_dy_author_detail` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `data` mediumtext COMMENT '数据结果',
   `deduplication` varchar(50) DEFAULT '' COMMENT '去重字段',
@@ -294,13 +294,13 @@ CREATE TABLE `daduoduo_dy_author_detail` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `daduoduo_dy_author_monitor`
+-- Table structure for table `xxxxx_dy_author_monitor`
 --
 
-DROP TABLE IF EXISTS `daduoduo_dy_author_monitor`;
+DROP TABLE IF EXISTS `xxxxx_dy_author_monitor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `daduoduo_dy_author_monitor` (
+CREATE TABLE `xxxxx_dy_author_monitor` (
   `task_id` varchar(100) DEFAULT '' COMMENT '项目id',
   `authorId` varchar(100) DEFAULT '' COMMENT '用户id',
   `LiveName` varchar(100) DEFAULT '' COMMENT '直播间名称',
@@ -314,13 +314,13 @@ CREATE TABLE `daduoduo_dy_author_monitor` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `daduoduo_dy_author_room_info`
+-- Table structure for table `xxxxx_dy_author_room_info`
 --
 
-DROP TABLE IF EXISTS `daduoduo_dy_author_room_info`;
+DROP TABLE IF EXISTS `xxxxx_dy_author_room_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `daduoduo_dy_author_room_info` (
+CREATE TABLE `xxxxx_dy_author_room_info` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `data` mediumtext COMMENT '数据结果',
   `deduplication` varchar(50) DEFAULT '' COMMENT '去重字段',
@@ -333,13 +333,13 @@ CREATE TABLE `daduoduo_dy_author_room_info` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `daduoduo_dy_author_search_list`
+-- Table structure for table `xxxxx_dy_author_search_list`
 --
 
-DROP TABLE IF EXISTS `daduoduo_dy_author_search_list`;
+DROP TABLE IF EXISTS `xxxxx_dy_author_search_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `daduoduo_dy_author_search_list` (
+CREATE TABLE `xxxxx_dy_author_search_list` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `data` mediumtext COMMENT '数据结果',
   `deduplication` varchar(100) DEFAULT '' COMMENT '去重字段',
@@ -352,13 +352,13 @@ CREATE TABLE `daduoduo_dy_author_search_list` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `daduoduo_dy_live_room_detail`
+-- Table structure for table `xxxxx_dy_live_room_detail`
 --
 
-DROP TABLE IF EXISTS `daduoduo_dy_live_room_detail`;
+DROP TABLE IF EXISTS `xxxxx_dy_live_room_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `daduoduo_dy_live_room_detail` (
+CREATE TABLE `xxxxx_dy_live_room_detail` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `data` mediumtext COMMENT '数据结果',
   `deduplication` varchar(50) DEFAULT '' COMMENT '去重字段',
@@ -371,13 +371,13 @@ CREATE TABLE `daduoduo_dy_live_room_detail` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `daduoduo_dy_live_room_flow_info`
+-- Table structure for table `xxxxx_dy_live_room_flow_info`
 --
 
-DROP TABLE IF EXISTS `daduoduo_dy_live_room_flow_info`;
+DROP TABLE IF EXISTS `xxxxx_dy_live_room_flow_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `daduoduo_dy_live_room_flow_info` (
+CREATE TABLE `xxxxx_dy_live_room_flow_info` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `data` mediumtext COMMENT '数据结果',
   `deduplication` varchar(100) DEFAULT '' COMMENT '去重字段',
@@ -390,13 +390,13 @@ CREATE TABLE `daduoduo_dy_live_room_flow_info` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `daduoduo_dy_live_room_goods`
+-- Table structure for table `xxxxx_dy_live_room_goods`
 --
 
-DROP TABLE IF EXISTS `daduoduo_dy_live_room_goods`;
+DROP TABLE IF EXISTS `xxxxx_dy_live_room_goods`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `daduoduo_dy_live_room_goods` (
+CREATE TABLE `xxxxx_dy_live_room_goods` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `data` mediumtext COMMENT '数据结果',
   `deduplication` varchar(100) DEFAULT '' COMMENT '去重字段',
@@ -409,13 +409,13 @@ CREATE TABLE `daduoduo_dy_live_room_goods` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `daduoduo_dy_live_search_list`
+-- Table structure for table `xxxxx_dy_live_search_list`
 --
 
-DROP TABLE IF EXISTS `daduoduo_dy_live_search_list`;
+DROP TABLE IF EXISTS `xxxxx_dy_live_search_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `daduoduo_dy_live_search_list` (
+CREATE TABLE `xxxxx_dy_live_search_list` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `data` mediumtext COMMENT '数据结果',
   `deduplication` varchar(100) DEFAULT '' COMMENT '去重字段',
@@ -428,13 +428,13 @@ CREATE TABLE `daduoduo_dy_live_search_list` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `daduoduo_dy_sign`
+-- Table structure for table `xxxxx_dy_sign`
 --
 
-DROP TABLE IF EXISTS `daduoduo_dy_sign`;
+DROP TABLE IF EXISTS `xxxxx_dy_sign`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `daduoduo_dy_sign` (
+CREATE TABLE `xxxxx_dy_sign` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `data` mediumtext COMMENT '数据结果',
   `status` smallint(6) DEFAULT '0' COMMENT '状态',
@@ -445,13 +445,13 @@ CREATE TABLE `daduoduo_dy_sign` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `project_daduoduo_dy_author_detail`
+-- Table structure for table `project_xxxxx_dy_author_detail`
 --
 
-DROP TABLE IF EXISTS `project_daduoduo_dy_author_detail`;
+DROP TABLE IF EXISTS `project_xxxxx_dy_author_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_daduoduo_dy_author_detail` (
+CREATE TABLE `project_xxxxx_dy_author_detail` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `payload_get` text COMMENT 'get请求参数',
   `payload_post` varchar(255) DEFAULT '' COMMENT 'post请求参数',
@@ -465,13 +465,13 @@ CREATE TABLE `project_daduoduo_dy_author_detail` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `project_daduoduo_dy_author_monitor`
+-- Table structure for table `project_xxxxx_dy_author_monitor`
 --
 
-DROP TABLE IF EXISTS `project_daduoduo_dy_author_monitor`;
+DROP TABLE IF EXISTS `project_xxxxx_dy_author_monitor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_daduoduo_dy_author_monitor` (
+CREATE TABLE `project_xxxxx_dy_author_monitor` (
   `task_id` varchar(100) DEFAULT '' COMMENT '项目id',
   `authorId` varchar(100) DEFAULT '' COMMENT '用户id',
   `BeginTime` datetime DEFAULT NULL COMMENT '开播时间',
@@ -486,13 +486,13 @@ CREATE TABLE `project_daduoduo_dy_author_monitor` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `project_daduoduo_dy_author_room_info`
+-- Table structure for table `project_xxxxx_dy_author_room_info`
 --
 
-DROP TABLE IF EXISTS `project_daduoduo_dy_author_room_info`;
+DROP TABLE IF EXISTS `project_xxxxx_dy_author_room_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_daduoduo_dy_author_room_info` (
+CREATE TABLE `project_xxxxx_dy_author_room_info` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `payload_get` varchar(255) DEFAULT '' COMMENT 'get请求参数',
   `payload_post` varchar(255) DEFAULT '' COMMENT 'post请求参数',
@@ -506,13 +506,13 @@ CREATE TABLE `project_daduoduo_dy_author_room_info` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `project_daduoduo_dy_author_search_list`
+-- Table structure for table `project_xxxxx_dy_author_search_list`
 --
 
-DROP TABLE IF EXISTS `project_daduoduo_dy_author_search_list`;
+DROP TABLE IF EXISTS `project_xxxxx_dy_author_search_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_daduoduo_dy_author_search_list` (
+CREATE TABLE `project_xxxxx_dy_author_search_list` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `payload_get` text COMMENT 'get请求参数',
   `payload_post` varchar(255) DEFAULT '' COMMENT 'post请求参数',
@@ -526,13 +526,13 @@ CREATE TABLE `project_daduoduo_dy_author_search_list` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `project_daduoduo_dy_live_room_detail`
+-- Table structure for table `project_xxxxx_dy_live_room_detail`
 --
 
-DROP TABLE IF EXISTS `project_daduoduo_dy_live_room_detail`;
+DROP TABLE IF EXISTS `project_xxxxx_dy_live_room_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_daduoduo_dy_live_room_detail` (
+CREATE TABLE `project_xxxxx_dy_live_room_detail` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `payload_get` text COMMENT 'get请求参数',
   `payload_post` varchar(255) DEFAULT '' COMMENT 'post请求参数',
@@ -546,13 +546,13 @@ CREATE TABLE `project_daduoduo_dy_live_room_detail` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `project_daduoduo_dy_live_room_flow_info`
+-- Table structure for table `project_xxxxx_dy_live_room_flow_info`
 --
 
-DROP TABLE IF EXISTS `project_daduoduo_dy_live_room_flow_info`;
+DROP TABLE IF EXISTS `project_xxxxx_dy_live_room_flow_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_daduoduo_dy_live_room_flow_info` (
+CREATE TABLE `project_xxxxx_dy_live_room_flow_info` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `payload_get` text COMMENT 'get请求参数',
   `payload_post` varchar(255) DEFAULT '' COMMENT 'post请求参数',
@@ -566,13 +566,13 @@ CREATE TABLE `project_daduoduo_dy_live_room_flow_info` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `project_daduoduo_dy_live_room_goods`
+-- Table structure for table `project_xxxxx_dy_live_room_goods`
 --
 
-DROP TABLE IF EXISTS `project_daduoduo_dy_live_room_goods`;
+DROP TABLE IF EXISTS `project_xxxxx_dy_live_room_goods`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_daduoduo_dy_live_room_goods` (
+CREATE TABLE `project_xxxxx_dy_live_room_goods` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `payload_get` text COMMENT 'get请求参数',
   `payload_post` varchar(255) DEFAULT '' COMMENT 'post请求参数',
@@ -586,13 +586,13 @@ CREATE TABLE `project_daduoduo_dy_live_room_goods` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `project_daduoduo_dy_live_search_list`
+-- Table structure for table `project_xxxxx_dy_live_search_list`
 --
 
-DROP TABLE IF EXISTS `project_daduoduo_dy_live_search_list`;
+DROP TABLE IF EXISTS `project_xxxxx_dy_live_search_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_daduoduo_dy_live_search_list` (
+CREATE TABLE `project_xxxxx_dy_live_search_list` (
   `task_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `payload_get` text COMMENT 'get请求参数',
   `payload_post` varchar(255) DEFAULT '' COMMENT 'post请求参数',

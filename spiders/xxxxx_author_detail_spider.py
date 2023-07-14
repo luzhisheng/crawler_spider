@@ -7,11 +7,11 @@ from spiders.spider_base import SpiderBase
 import requests
 
 
-class DaduoduoDyAuthorDetailSpider(SpiderBase):
-    name = 'daduoduo_dy_author_detail'
+class xxxxxDyAuthorDetailSpider(SpiderBase):
+    name = 'xxxxx_dy_author_detail'
 
     def __init__(self):
-        super(DaduoduoDyAuthorDetailSpider, self).__init__()
+        super(xxxxxDyAuthorDetailSpider, self).__init__()
         queue = Queue()
         self.project_list = queue
         self.table = self.name
@@ -40,7 +40,7 @@ class DaduoduoDyAuthorDetailSpider(SpiderBase):
     def init_requests(self, payload_get, payload_post):
         try:
             url = payload_get
-            authtoken = self.get_sign(table='daduoduo_dy_sign', task_id='daduoduo_dy_sign_1')
+            authtoken = self.get_sign(table='xxxxx_dy_sign', task_id='xxxxx_dy_sign_1')
             headers = {'authtoken': authtoken[0][0]}
             response = requests.request("GET", url=url, headers=headers)
             response_json = response.json()
@@ -97,5 +97,5 @@ class DaduoduoDyAuthorDetailSpider(SpiderBase):
 
 
 if __name__ == '__main__':
-    a = DaduoduoDyAuthorDetailSpider()
+    a = xxxxxDyAuthorDetailSpider()
     a.run()

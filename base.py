@@ -9,7 +9,7 @@ class Base(object):
 
     def __init__(self):
         self.producer = MyRedis()
-        self.eb_supports = StoreMysqlPool(**settings.mysql_server_daduoduo)
+        self.eb_supports = StoreMysqlPool(**settings.mysql_server_xxxxx)
 
     def log(self, s):
         print('【%s】 %s' % (datetime.now(), s), flush=True)

@@ -2,18 +2,18 @@ from base import Base
 import json
 
 
-class CleanDaduoduoDyAuthorDetailExtractor(Base):
-    name = 'daduoduo_dy_author_detail'
+class CleanxxxxxDyAuthorDetailExtractor(Base):
+    name = 'xxxxx_dy_author_detail'
 
     def __init__(self):
-        super(CleanDaduoduoDyAuthorDetailExtractor, self).__init__()
+        super(CleanxxxxxDyAuthorDetailExtractor, self).__init__()
         self.table = self.name
         self.clean_table = "clean_" + self.table
 
     def process_item(self, resp):
         list_res = []
         if not resp:
-            self.log(f'清洗{self.table}数据-达多多数据-不存在')
+            self.log(f'清洗{self.table}数据-xxxxx数据-不存在')
             return ''
 
         for task_id, data, deduplication, update_time in resp:
@@ -75,10 +75,10 @@ class CleanDaduoduoDyAuthorDetailExtractor(Base):
 
 if __name__ == '__main__':
     offset = 0
-    qc = CleanDaduoduoDyAuthorDetailExtractor()
+    qc = CleanxxxxxDyAuthorDetailExtractor()
     while True:
         sql = f"""
-            select task_id, data, deduplication, update_time from daduoduo_dy_author_detail where
+            select task_id, data, deduplication, update_time from xxxxx_dy_author_detail where
              date_sub(CURDATE(),INTERVAL 1 DAY) <= DATE(update_time) LIMIT 1000 OFFSET {offset};
         """
         res = qc.eb_supports.query(sql)

@@ -8,11 +8,11 @@ def log(s):
 
 if os.environ.get('ENV_REPLACE_API') == 'prod':
     log('生产环境')
-    mysql_server_daduoduo = {
+    mysql_server_xxxxx = {
         "host": '127.0.0.1',
         "user": 'root',
-        "password": os.environ.get('DB_PASSWORD_DADUODUO'),
-        "db": 'eb_supports_daduoduo',
+        "password": os.environ.get('DB_PASSWORD_xxxxx'),
+        "db": 'eb_supports_xxxxx',
         "port": 3306,
         "charset": 'utf8mb4'
     }
@@ -27,11 +27,11 @@ if os.environ.get('ENV_REPLACE_API') == 'prod':
     REDIS_SPIDER_QUEUE = 'queue:spider_data'
 else:
     log('测试环境')
-    mysql_server_daduoduo = {
+    mysql_server_xxxxx = {
         "host": '127.0.0.1',
         "user": 'root',
         "password": '123456',
-        "db": 'eb_supports_daduoduo',
+        "db": 'eb_supports_xxxxx',
         "port": 3306,
         "charset": 'utf8mb4'
     }
