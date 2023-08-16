@@ -26,8 +26,10 @@ class RedisReceiver(BaseReceiver):
     def retry_proccess_spider(self, res):
         retry_cnt = res.get('retry_cnt')
         table = res.get('table')
+        task_id = res.get('task_id')
+        deduplication = res.get('deduplication')
         retry_cnt += 1
-        data = {'table': table, 'retry_cnt': retry_cnt}
+        data = {'task_id': task_id, 'deduplication': deduplication, 'table': table, 'retry_cnt': retry_cnt}
         content = {'type': 'raw', 'data': data}
         self.conn.rpush(REDIS_SPIDER_QUEUE, json.dumps(content))
         self.log("重试消息已发送. {} , count: {}".format(table, retry_cnt))
@@ -45,9 +47,11 @@ class RedisReceiver(BaseReceiver):
     def get_process_list_spider(self, msgs):
         msg = json.loads(msgs[1])
         table = msg.get('data').get('table')
+        task_id = msg.get('data').get('task_id')
         retry_cnt = msg.get('data').get('retry_cnt')
+        deduplication = msg.get('data').get('deduplication')
         if self.spiders.get(table, ''):
-            yield table, self.spiders[table](), retry_cnt
+            yield table, self.spiders[table](), retry_cnt, task_id, deduplication
         else:
             yield
 

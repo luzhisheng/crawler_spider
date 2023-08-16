@@ -1,10 +1,8 @@
-import json
-import time
-
 from requests.exceptions import SSLError, ProxyError, ChunkedEncodingError, ConnectionError
-from multiprocessing import Queue
 from spiders.spider_base import SpiderBase
+from settings import xxxxx_AY_SIGN
 import requests
+import json
 
 
 class xxxxxDyAuthorDetailSpider(SpiderBase):
@@ -12,35 +10,13 @@ class xxxxxDyAuthorDetailSpider(SpiderBase):
 
     def __init__(self):
         super(xxxxxDyAuthorDetailSpider, self).__init__()
-        queue = Queue()
-        self.project_list = queue
         self.table = self.name
         self.project_table = 'project_' + self.table
-        self.flag = 0
-
-    def put_item(self):
-        try:
-            sql = f"SELECT task_id, payload_get, payload_post, deduplication FROM {self.project_table} " \
-                  f"WHERE status = 0 ORDER BY weight DESC limit 10"
-            msg = self.eb_supports.query(sql)
-            if msg:
-                for i in msg:
-                    sql = f'update {self.project_table} set status = 1 ' \
-                          f'where task_id="{i[0]}" and deduplication = "{i[3]}";'
-                    self.eb_supports.do(sql)
-                    self.project_list.put(i)
-            elif not msg:
-                sql = f"update {self.project_table} set status = 0 where status = 1;"
-                row_cnt = self.eb_supports.do(sql)
-                self.log(f"重置任务-{self.project_table}-{row_cnt}个")
-                return '找不到资源'
-        except (SSLError, ProxyError, ChunkedEncodingError, ConnectionError):
-            return "put_item 握手失败"
 
     def init_requests(self, payload_get, payload_post):
         try:
             url = payload_get
-            authtoken = self.get_sign(table='xxxxx_dy_sign', task_id='xxxxx_dy_sign_1')
+            authtoken = self.get_xxxxx_dy_sign('table', xxxxx_AY_SIGN)
             headers = {'authtoken': authtoken[0][0]}
             response = requests.request("GET", url=url, headers=headers)
             response_json = response.json()
@@ -60,6 +36,14 @@ class xxxxxDyAuthorDetailSpider(SpiderBase):
             raise ValueError(f"init_requests 握手失败")
 
         list_dicts = []
+
+        msg = content.get('msg')
+        if msg == '达人不存在':
+            sql = f"update {self.project_table} set status = -2 WHERE task_id='{task_id}'" \
+                  f" and deduplication = '{deduplication}';"
+            self.eb_supports.do(sql)
+            return None, self.table, deduplication
+
         data = content.get('data')
         item = {
             "task_id": task_id,
@@ -73,29 +57,26 @@ class xxxxxDyAuthorDetailSpider(SpiderBase):
             sql = f"update {self.project_table} set status = 2 WHERE task_id='{task_id}'" \
                   f" and deduplication = '{deduplication}';"
             self.eb_supports.do(sql)
-            self.log(f"入库成功 {task_id}-{deduplication}")
             self.close_spider(self.table, task_id, 1)
+            return True, self.table, deduplication
+        else:
+            return False, self.table, deduplication
 
-    def run(self):
-        while True:
-            time.sleep(0.2)
-            if self.project_list.qsize() > 0:
-                try:
-                    self.get_html(self.project_list.get())
-                    self.flag = 0
-                except (SSLError, ProxyError, ChunkedEncodingError, ConnectionError, ValueError) as e:
-                    raise ValueError(e)
-            else:
-                res = self.put_item()
-                if "找不到资源" == res:
-                    self.flag += 1
-                    self.log(f"找不到资源-{self.flag}")
-                    if self.flag == 2:
-                        break
-                elif "put_item 握手失败" == res:
-                    raise ValueError(f"init_requests 握手失败")
+    def run(self, req):
+        try:
+            import time
+            time.sleep(0.3)
+            exists, self.table, deduplication = self.get_html(req[0])
+            return exists, self.table, deduplication
+        except (SSLError, ProxyError, ChunkedEncodingError, ConnectionError, ValueError) as e:
+            raise ValueError(e)
 
 
 if __name__ == '__main__':
     a = xxxxxDyAuthorDetailSpider()
-    a.run()
+    sql = f"""
+        select task_id, payload_get, payload_post, deduplication from project_xxxxx_dy_author_detail where 
+        task_id='project_xxxxx_dy_live-16914038810963438' and deduplication='authorId=3817982232635758' and status=2;
+    """
+    raw = a.eb_supports.query(sql)
+    a.run(raw)
